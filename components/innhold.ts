@@ -59,7 +59,6 @@ export const prosess = [
     tittel: "Tilbake til jorda",
     tekst:
       "Brukt strø kan komposteres og bli jordforbedring. Karbonet i biokullet blir liggende i jorda i stedet for å gå ut i lufta.",
-
     bilde: "biokullIJord" as const,
   },
 ];
