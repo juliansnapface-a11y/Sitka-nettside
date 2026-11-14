@@ -79,7 +79,7 @@ export default function Problem() {
   return (
     <section id="problemet" ref={ref} className="relative bg-ink">
       {/* Del 1: ammoniakk */}
-      <div className="ammo relative overflow-hidden px-5 pb-16 pt-28 md:px-10 md:pb-24 md:pt-40">
+      <div className="ammo relative overflow-hidden px-5 py-28 md:px-10 md:py-40">
         <div className="nh3-big pointer-events-none absolute -right-[10vw] top-[80%] -translate-y-1/2 select-none font-display text-[42vw] font-bold leading-none outline-red opacity-30 md:top-1/2">
           NH<span className="relative top-[0.12em] text-[0.55em]">3</span>
         </div>
@@ -103,10 +103,6 @@ export default function Problem() {
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="px-5 pb-28 md:px-10 md:pb-40">
-        <Photo navn="hest" frame="aspect-[4/3] md:aspect-[21/9]" position="center 25%" />
       </div>
 
       {/* Del 2: sitkagran */}
@@ -135,6 +131,13 @@ export default function Problem() {
             >
               Sitkagran er en fremmed art i norsk natur. Vi ser treet som en ressurs i stedet for et problem.
             </motion.p>
+            <a
+            href="/problem-og-losning"
+            className="group mt-10 inline-flex items-center gap-3 rounded-full border border-off/30 px-6 py-3 font-display text-sm uppercase tracking-[0.2em] text-off transition-colors hover:border-red hover:text-red"
+          >
+            Les mer om problemet
+            <span className="transition-transform group-hover:translate-x-1">→</span>
+          </a>
           </div>
         </div>
       </div>

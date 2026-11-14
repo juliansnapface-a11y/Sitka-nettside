@@ -41,7 +41,6 @@ Gå så til http://localhost:3000 i nettleseren.
 | `components/Preloader.tsx` | Åpningsanimasjonen (årringene som tegnes) |
 | `components/Hero.tsx` + `RingScene.tsx` | Toppen av siden med 3D-årringen |
 | `components/Problem.tsx` | Ammoniakk og sitkagran |
-| `components/Bridge.tsx` | Den røde «To problemer. Ett produkt.» |
 | `components/Solution.tsx` | Løsningen, med biokullkornet og kortene |
 | `components/Process.tsx` | De fire stegene som scroller sidelengs |
 | `components/Sustainability.tsx` | Årringene som vokser mens du scroller |

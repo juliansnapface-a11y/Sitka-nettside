@@ -4,7 +4,6 @@ import Cursor from "@/components/Cursor";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import Problem from "@/components/Problem";
-import Bridge from "@/components/Bridge";
 import Solution from "@/components/Solution";
 import Process from "@/components/Process";
 import Sustainability from "@/components/Sustainability";
@@ -23,7 +22,6 @@ export default function Home() {
       <main>
         <Hero />
         <Problem />
-        <Bridge />
         <Solution />
         <Process />
         <Sustainability />
