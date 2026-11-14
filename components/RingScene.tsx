@@ -94,17 +94,6 @@ function makeBarkTexture() {
   return tex;
 }
 
-function useScrollProgress() {
-  const p = useRef(0);
-  useEffect(() => {
-    const on = () => (p.current = window.scrollY / window.innerHeight);
-    on();
-    window.addEventListener("scroll", on, { passive: true });
-    return () => window.removeEventListener("scroll", on);
-  }, []);
-  return p;
-}
-
 function useLoaded() {
   const [loaded, setLoaded] = useState(
     () => typeof window !== "undefined" && !!(window as unknown as { __sitkaLoaded?: boolean }).__sitkaLoaded,
@@ -121,7 +110,6 @@ function Disc() {
   const group = useRef<THREE.Group>(null);
   const disc = useRef<THREE.Mesh>(null);
   const halo = useRef<THREE.Mesh>(null);
-  const scroll = useScrollProgress();
   const loaded = useLoaded();
   const intro = useRef(0);
   const { viewport } = useThree();
@@ -160,36 +148,28 @@ function Disc() {
   const small = viewport.width < 6;
   const smallScale = THREE.MathUtils.clamp(viewport.width * 0.29, 0.5, 0.95);
 
+  // Skiven er bare bakgrunn: den snurrer rolig av seg selv og reagerer ikke på mus eller scrolling
   useFrame((state, dt) => {
     if (!group.current || !disc.current) return;
     const t = state.clock.elapsedTime;
-    intro.current = THREE.MathUtils.damp(intro.current, loaded ? 1 : 0, 2.2, dt);
-    const s = scroll.current;
+    intro.current = THREE.MathUtils.damp(intro.current, loaded ? 1 : 0, 1.6, dt);
     const k = intro.current;
 
-    // Inngang: skiven spinner inn fra siden
-    const baseScale = (small ? smallScale : 1) * (0.2 + 0.8 * k);
-    group.current.scale.setScalar(baseScale * (1 + s * 0.25));
-    group.current.position.y = -s * 2.2 + (small ? -0.2 * viewport.height : 0);
-    group.current.position.x = (small ? 0 : 1.35) * (1 - s * 0.4);
-    group.current.position.z = -s * 1.5;
+    const baseScale = (small ? smallScale : 1.1) * (0.2 + 0.8 * k);
+    group.current.scale.setScalar(baseScale);
+    group.current.position.set(small ? 0 : 1.5, (small ? -0.2 * viewport.height : 0) + Math.sin(t * 0.5) * 0.06, 0);
 
-    // Rotasjon: konstant snurr + musa + scroll
-    const px = state.pointer.x;
-    const py = state.pointer.y;
-    disc.current.rotation.z = THREE.MathUtils.damp(disc.current.rotation.z, -px * 0.35, 3, dt);
-    group.current.rotation.x = THREE.MathUtils.damp(group.current.rotation.x, 0.25 - py * 0.3 + s * 1.2, 3, dt);
-    group.current.rotation.y =
-      t * 0.35 + (1 - k) * 6 + s * 4 + Math.sin(t * 0.6) * 0.15;
-    group.current.rotation.z = Math.sin(t * 0.4) * 0.08;
+    group.current.rotation.x = 0.25 + Math.sin(t * 0.3) * 0.05;
+    group.current.rotation.y = t * 0.18 + (1 - k) * 4;
+    group.current.rotation.z = Math.sin(t * 0.25) * 0.06;
 
-    // Røde glør pulserer
+    // Røde glør pulserer svakt
     const fm = mats[1] as THREE.MeshStandardMaterial;
-    fm.emissiveIntensity = 0.45 + Math.sin(t * 2) * 0.15 + s * 0.4;
+    fm.emissiveIntensity = 0.4 + Math.sin(t * 1.2) * 0.1;
 
     if (halo.current) {
       halo.current.position.copy(group.current.position).add(new THREE.Vector3(0, 0, -1.2));
-      halo.current.scale.setScalar((3.6 + Math.sin(t * 1.3) * 0.2) * k * (small ? smallScale : 1));
+      halo.current.scale.setScalar((3.6 + Math.sin(t * 0.8) * 0.15) * k * (small ? smallScale : 1.1));
     }
   });
 
@@ -307,7 +287,7 @@ export default function RingScene() {
   }, []);
 
   return (
-    <div ref={wrap} className="absolute inset-0">
+    <div ref={wrap} className="pointer-events-none absolute inset-0 opacity-75">
       {webgl ? (
         <Boundary>
           <Canvas

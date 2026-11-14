@@ -4,16 +4,26 @@ import { motion } from "motion/react";
 import { Kicker, RevealWords } from "./Text";
 import { kunder } from "./innhold";
 import Marquee from "./Marquee";
+import Photo from "./Photo";
 
 // Liste over hvem strøet er for, med rød fyll som sveiper inn ved hover
 export default function Customers() {
   return (
     <section className="relative overflow-x-clip bg-ink py-28 md:py-40">
-      <div className="px-5 md:px-10">
-        <Kicker>For hvem</Kicker>
-        <h2 className="mt-6 font-display text-5xl font-bold uppercase leading-[0.95] md:text-8xl">
-          <RevealWords text="Laget for" /> <RevealWords text="stallen." className="text-red" delay={0.1} />
-        </h2>
+      <div className="grid gap-12 px-5 md:grid-cols-12 md:items-end md:px-10">
+        <div className="md:col-span-7">
+          <Kicker>For hvem</Kicker>
+          <h2 className="mt-6 font-display text-5xl font-bold uppercase leading-[0.95] md:text-8xl">
+            <RevealWords text="Laget for" /> <RevealWords text="stallen." className="text-red" delay={0.1} />
+          </h2>
+        </div>
+        <Photo
+          navn="honer"
+          className="md:col-span-5"
+          frame="aspect-[4/3]"
+          position="center 75%"
+          sizes="(min-width: 768px) 40vw, 100vw"
+        />
       </div>
       <ul className="mt-16 border-t border-off/15">
         {kunder.map((k, i) => (

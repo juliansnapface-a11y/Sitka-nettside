@@ -14,7 +14,7 @@ const inter = Inter({
 });
 
 const beskrivelse =
-  "Sitka UB lager strø med biokull fra sitkagran, en fremmed tresort i norsk natur. Biokullet skal binde lukt, fukt og ammoniakk i staller og hønsehus, og brukt strø kan bli jordforbedring.";
+  "Sitka lager strø med biokull fra sitkagran, en fremmed tresort i norsk natur. Biokullet skal binde lukt, fukt og ammoniakk i staller og hønsehus, og brukt strø kan bli jordforbedring.";
 
 export const metadata: Metadata = {
   // Adressen til nettsiden. Bytt denne hvis dere får eget domene (f.eks. https://sitka.no)
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     description: beskrivelse,
     locale: "nb_NO",
     type: "website",
-    siteName: "Sitka UB",
+    siteName: "Sitka",
   },
 };
 

@@ -4,7 +4,10 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import Image from "next/image";
 import { prosess } from "./innhold";
+import { bilder } from "./bilder";
+import { Kreditt } from "./Photo";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -125,7 +128,7 @@ export default function Process() {
     () => {
       const mm = gsap.matchMedia();
 
-      // Tegner strekene og «popper» inn prikkene i et panel
+      // Tegner strekene, «popper» inn prikkene og zoomer bildet i et panel
       const animatePanel = (p: HTMLElement, trigger: () => ScrollTrigger.Vars) => {
         const draws = p.querySelectorAll(".draw");
         if (draws.length)
@@ -134,6 +137,9 @@ export default function Process() {
             { strokeDashoffset: 1 },
             { strokeDashoffset: 0, duration: 1.8, stagger: 0.2, ease: "power2.inOut", scrollTrigger: trigger() },
           );
+        const photos = p.querySelectorAll(".photo");
+        if (photos.length)
+          gsap.fromTo(photos, { scale: 1.3 }, { scale: 1, duration: 1.8, ease: "power3.out", scrollTrigger: trigger() });
         const pops = p.querySelectorAll(".pop");
         if (pops.length)
           gsap.from(pops, {
@@ -232,6 +238,19 @@ export default function Process() {
                   <PyrolyseVideo />
                   <div className="absolute bottom-4 left-4 rounded-full bg-red px-3 py-1 font-display text-xs uppercase tracking-[0.2em] text-off">
                     ca. 600 °C · nesten uten O<sub className="text-[0.7em]">2</sub>
+                  </div>
+                </div>
+              ) : s.bilde ? (
+                <div className="visual relative h-full w-full overflow-hidden rounded-3xl bg-ink">
+                  <Image
+                    src={bilder[s.bilde].src}
+                    alt={bilder[s.bilde].alt}
+                    fill
+                    sizes="(min-width: 768px) 35vw, 100vw"
+                    className="photo object-cover"
+                  />
+                  <div className="absolute inset-x-4 bottom-4 w-fit rounded-full bg-ink/80 px-3 py-1 text-[11px] text-off/80 backdrop-blur">
+                    <Kreditt b={bilder[s.bilde]} />
                   </div>
                 </div>
               ) : (

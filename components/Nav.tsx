@@ -9,7 +9,6 @@ const links = [
   { href: "#losningen", label: "Løsningen" },
   { href: "#prosessen", label: "Prosessen" },
   { href: "#baerekraft", label: "Bærekraft" },
-  { href: "#om-oss", label: "Om oss" },
 ];
 
 const ease = [0.76, 0, 0.24, 1] as const;

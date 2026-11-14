@@ -1,9 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useMotionValue, useScroll, useSpring, useTransform } from "motion/react";
+import { motion, useMotionValue, useSpring } from "motion/react";
 import { kontakt } from "./innhold";
-import Marquee from "./Marquee";
 
 // Knapp som trekkes mot musa (magnetisk)
 function Magnetic({ children, href }: { children: React.ReactNode; href: string }) {
@@ -35,15 +33,10 @@ function Magnetic({ children, href }: { children: React.ReactNode; href: string 
 }
 
 export default function Contact() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["-30%", "0%"]);
   const year = 2026;
 
   return (
-    <section id="kontakt" ref={ref} className="relative overflow-hidden bg-ink pt-10">
-      <Marquee items={["Ta kontakt", "Bestill en prøve", "Samarbeid"]} baseVelocity={2} className="py-6 text-6xl text-off md:text-9xl" />
-
+    <section id="kontakt" className="relative overflow-hidden bg-ink pt-10">
       <div className="grid gap-16 px-5 py-24 md:grid-cols-2 md:items-center md:px-10">
         <div>
           <p className="font-display text-xs uppercase tracking-[0.35em] text-red md:text-sm">Kontakt</p>
@@ -73,7 +66,6 @@ export default function Contact() {
                 @{kontakt.instagram}
               </a>
             )}
-            <p className="text-base text-off/50">{kontakt.sted}</p>
           </div>
         </div>
         <div className="flex justify-center md:justify-end">
@@ -86,17 +78,13 @@ export default function Contact() {
         </div>
       </div>
 
-      <footer className="relative overflow-hidden border-t border-off/10 px-5 pt-10 md:px-10">
+      <footer className="relative border-t border-off/10 px-5 py-10 md:px-10">
         <div className="flex flex-col justify-between gap-4 text-sm text-off/50 md:flex-row">
-          <span>© {year} Sitka UB · Ungdomsbedrift</span>
-          <span>Entreprenørskapslinjen · Kongshavn vgs · Oslo</span>
+          <span>© {year} Sitka</span>
           <a href="#top" className="w-fit transition-colors hover:text-red">
             Til toppen ↑
           </a>
         </div>
-        <motion.div style={{ y }} className="select-none pb-[0.09em] pt-6 text-center font-display text-[31vw] font-bold leading-[0.78] text-red">
-          SITKA
-        </motion.div>
       </footer>
     </section>
   );

@@ -1,30 +1,15 @@
 // ============================================================
 //  INNHOLD PÅ NETTSIDEN
 //  Her kan du endre tekst uten å røre resten av koden.
-//  Ting merket «FYLL INN» må dere bytte ut med ekte informasjon.
+//  Ting merket «FYLL INN» kan dere fylle ut senere.
 // ============================================================
 
 export const kontakt = {
-  // FYLL INN: e-postadressen til bedriften, mellom anførselstegnene.
-  // Eksempel: epost: "post@sitkaub.no"
-  // Så lenge den står tom, viser siden «E-post kommer snart».
-  epost: "",
+  // E-postadressen som vises i kontakt-delen nederst på siden
+  epost: "sitkabiokull@gmail.com",
   // FYLL INN: Instagram-brukernavn uten @ (la stå tom "" hvis dere ikke har)
   instagram: "",
-  sted: "Kongshavn vgs · Oslo",
 };
-
-// FYLL INN: navn og rolle til de seks i teamet.
-// Eksempel: { navn: "Kari Nordmann", rolle: "Daglig leder", bilde: "/team/kari.jpg" }
-// Bilder legges i mappen public/team/. Uten bilde vises bare et nummer.
-export const team: { navn: string; rolle: string; bilde?: string }[] = [
-  { navn: "", rolle: "" },
-  { navn: "", rolle: "" },
-  { navn: "", rolle: "" },
-  { navn: "", rolle: "" },
-  { navn: "", rolle: "" },
-  { navn: "", rolle: "" },
-];
 
 export const losning = [
   {
@@ -66,6 +51,7 @@ export const prosess = [
     tittel: "Blandes til strø",
     tekst:
       "Biokullet blandes med flis. Resultatet er et strø, eller en tilsetning til vanlig strø, for hønsehus og staller.",
+    bilde: "flis" as const,
   },
   {
     nr: "04",

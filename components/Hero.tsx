@@ -25,15 +25,6 @@ export default function Hero() {
 
       <motion.div style={{ opacity: fade }} className="pointer-events-none relative z-10 flex h-full flex-col justify-between px-5 pb-6 pt-28 md:px-10 md:pb-8">
         <div className="max-w-xl">
-          <motion.div
-            className="mb-6 flex items-center gap-3 font-display text-xs uppercase tracking-[0.35em] text-red md:text-sm"
-            initial={{ opacity: 0 }}
-            animate={loaded ? { opacity: 1 } : undefined}
-            transition={{ delay: 0.5, duration: 1 }}
-          >
-            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-red" />
-            Ungdomsbedrift 2026
-          </motion.div>
           <h2 className="font-display text-3xl font-medium uppercase leading-[1.05] md:text-5xl">
             <RevealWords text="Strø med biokull" play={loaded} delay={0.4} />
             <br />
@@ -73,10 +64,7 @@ export default function Hero() {
         </div>
 
         <motion.div style={{ y: titleY }}>
-          <div className="mb-2 flex items-end justify-between font-display text-[10px] uppercase tracking-[0.3em] text-off/50 md:text-xs">
-            <motion.span initial={{ opacity: 0 }} animate={loaded ? { opacity: 1 } : undefined} transition={{ delay: 1.2 }}>
-              Kongshavn vgs · Oslo
-            </motion.span>
+          <div className="mb-2 flex items-end justify-end font-display text-[10px] uppercase tracking-[0.3em] text-off/50 md:text-xs">
             <motion.span
               className="flex items-center gap-2"
               initial={{ opacity: 0 }}

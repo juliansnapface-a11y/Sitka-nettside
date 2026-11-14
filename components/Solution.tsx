@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useInView, useMotionTemplate, useMotionValue, useScroll, useSpring, useTransform } from "motion/react";
 import { Kicker, RevealWords } from "./Text";
 import { losning } from "./innhold";
+import Photo from "./Photo";
 
 function rand(seed: number) {
   let s = seed;
@@ -232,6 +233,7 @@ export default function Solution() {
           >
             Vi blander biokull fra sitkagran med flis. Biokullet skal fungere som en svamp i strøet og fange opp det som ellers ville lukte og fordampe.
           </motion.p>
+          <Photo navn="biokull" className="mt-12 max-w-lg" frame="aspect-[16/10]" sizes="(min-width: 768px) 40vw, 100vw" />
         </div>
         <motion.div className="mx-auto aspect-square w-full max-w-xl md:col-span-6" style={{ rotate, y }}>
           <Grain />
