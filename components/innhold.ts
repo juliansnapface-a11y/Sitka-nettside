@@ -38,6 +38,7 @@ export const prosess = [
     tittel: "Sitkagran fjernes",
     tekst:
       "Sitkagran fjernes allerede mange steder for å ta vare på naturen. I dag blir trærne ofte liggende igjen eller brent. Vi bruker dem som råvare i stedet.",
+    bilde: "ungSitkagran" as const,
   },
   {
     nr: "02",
@@ -58,6 +59,7 @@ export const prosess = [
     tittel: "Tilbake til jorda",
     tekst:
       "Brukt strø kan komposteres og bli jordforbedring. Karbonet i biokullet blir liggende i jorda i stedet for å gå ut i lufta.",
+    bilde: "biokullIJord" as const,
   },
 ];
 

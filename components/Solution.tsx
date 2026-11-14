@@ -233,6 +233,13 @@ export default function Solution() {
           >
             Vi blander biokull fra sitkagran med flis. Biokullet skal fungere som en svamp i strøet og fange opp det som ellers ville lukte og fordampe.
           </motion.p>
+          <a
+            href="/problem-og-losning#biokull"
+            className="group mt-8 inline-flex items-center gap-3 rounded-full border border-off/30 px-6 py-3 font-display text-sm uppercase tracking-[0.2em] text-off transition-colors hover:border-red hover:text-red"
+          >
+            Les mer om løsningen
+            <span className="transition-transform group-hover:translate-x-1">→</span>
+          </a>
           <Photo navn="biokull" className="mt-12 max-w-lg" frame="aspect-[16/10]" sizes="(min-width: 768px) 40vw, 100vw" />
         </div>
         <motion.div className="mx-auto aspect-square w-full max-w-xl md:col-span-6" style={{ rotate, y }}>
