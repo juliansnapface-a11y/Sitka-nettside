@@ -56,7 +56,7 @@ function Visual({ i }: { i: number }) {
       <svg viewBox="0 0 300 300" className="h-full w-full">
         {blanding.map((b, k) =>
           b.kull ? (
-            <circle key={k} className="pop" cx={b.x} cy={b.y} r={b.r} fill={b.glo ? "#E0201A" : "#050202"} stroke="#E0201A" strokeWidth="1" />
+            <circle key={k} className="pop" cx={b.x} cy={b.y} r={b.r} fill={b.glo ? "#E0201A" : "#3a1c18"} stroke="#E0201A" strokeWidth="1" />
           ) : (
             <rect
               key={k}
