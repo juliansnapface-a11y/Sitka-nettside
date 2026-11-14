@@ -20,12 +20,12 @@ export default function Bridge() {
         className="pointer-events-none absolute left-1/2 top-1/2 -ml-[45vmin] -mt-[45vmin] h-[90vmin] w-[90vmin] rounded-full bg-[repeating-radial-gradient(circle,transparent_0_26px,rgba(12,5,5,0.16)_26px_30px)]"
       />
       <div className="relative px-5 md:px-10">
-        <motion.p style={{ x: x1 }} className="whitespace-nowrap font-display text-[15vw] font-bold uppercase leading-[0.9] md:text-[13vw]">
+        <motion.p style={{ x: x1 }} className="whitespace-nowrap font-display text-[13.5vw] font-bold uppercase leading-[0.9] md:text-[13vw]">
           To problemer.
         </motion.p>
         <motion.p
           style={{ x: x2 }}
-          className="whitespace-nowrap text-right font-display text-[15vw] font-bold uppercase leading-[0.9] text-off md:text-[13vw]"
+          className="whitespace-nowrap text-right font-display text-[13.5vw] font-bold uppercase leading-[0.9] text-off md:text-[13vw]"
         >
           Ett produkt.
         </motion.p>

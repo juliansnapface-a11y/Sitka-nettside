@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useLoaded } from "./Text";
 
@@ -25,6 +25,15 @@ export default function Nav() {
     const prev = scrollY.getPrevious() ?? 0;
     setHidden(y > prev && y > 200);
   });
+
+  // Lås scrollingen mens mobilmenyen er åpen
+  useEffect(() => {
+    if (!open) return;
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, [open]);
 
   return (
     <>
