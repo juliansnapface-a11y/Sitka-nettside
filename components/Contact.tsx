@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useMotionValue, useSpring } from "motion/react";
-import { kontakt } from "./innhold";
+import { innhold, kontakt } from "./innhold";
+import { useSprak } from "./Sprak";
 
 // Knapp som trekkes mot musa (magnetisk)
 function Magnetic({ children, href }: { children: React.ReactNode; href: string }) {
@@ -34,19 +35,20 @@ function Magnetic({ children, href }: { children: React.ReactNode; href: string 
 
 export default function Contact() {
   const year = 2026;
+  const t = innhold[useSprak()].kontakt;
 
   return (
     <section id="kontakt" className="relative overflow-hidden bg-ink pt-10">
       <div className="grid gap-16 px-5 py-24 md:grid-cols-2 md:items-center md:px-10">
         <div>
-          <p className="font-display text-xs uppercase tracking-[0.35em] text-red md:text-sm">Kontakt</p>
+          <p className="font-display text-xs uppercase tracking-[0.35em] text-red md:text-sm">{t.kicker}</p>
           <h2 className="mt-6 font-display text-5xl font-bold uppercase leading-[0.95] md:text-7xl">
-            Vil du teste
+            {t.tittelA}
             <br />
-            <span className="text-red">Sitka i stallen?</span>
+            <span className="text-red">{t.tittelB}</span>
           </h2>
           <p className="mt-6 max-w-md text-lg text-off/70">
-            Har du en stall eller et hønsehus, eller vil du samarbeide med oss? Send oss en melding.
+            {t.tekst}
           </p>
           <div className="mt-10 space-y-2 font-display text-xl md:text-2xl">
             {kontakt.epost ? (
@@ -54,7 +56,7 @@ export default function Contact() {
                 {kontakt.epost}
               </a>
             ) : (
-              <p className="w-fit border-b border-red pb-1 text-off/80">E-post kommer snart</p>
+              <p className="w-fit border-b border-red pb-1 text-off/80">{t.epostSnart}</p>
             )}
             {kontakt.instagram && (
               <a
@@ -70,7 +72,7 @@ export default function Contact() {
         </div>
         <div className="flex justify-center md:justify-end">
           {kontakt.epost ? (
-            <Magnetic href={`mailto:${kontakt.epost}`}>Send e-post</Magnetic>
+            <Magnetic href={`mailto:${kontakt.epost}`}>{t.sendEpost}</Magnetic>
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
             <img src="/media/sitka-ikon.svg" alt="" className="h-44 w-44 animate-[spin_24s_linear_infinite] md:h-56 md:w-56" />
@@ -82,7 +84,7 @@ export default function Contact() {
         <div className="flex flex-col justify-between gap-4 text-sm text-off/50 md:flex-row">
           <span>© {year} Sitka</span>
           <a href="#top" className="w-fit transition-colors hover:text-red">
-            Til toppen ↑
+            {t.tilToppen}
           </a>
         </div>
       </footer>

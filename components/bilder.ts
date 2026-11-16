@@ -18,6 +18,8 @@ export type Bilde = {
   lisens: string;
   lisensUrl?: string;
   kilde?: string;
+  // Bildeteksten på engelsk
+  en: { alt: string; tekst: string; lisens?: string };
 };
 
 export const bilder = {
@@ -31,6 +33,7 @@ export const bilder = {
     lisens: "CC BY-SA 4.0",
     lisensUrl: "https://creativecommons.org/licenses/by-sa/4.0/deed.no",
     kilde: "https://commons.wikimedia.org/wiki/File:Sitka_Spruce_(Picea_sitchensis)_plantation_-_Haugesund,_Norway_2021-08-04_(01).jpg",
+    en: { alt: "Dense plantation of tall Sitka spruce. The forest floor below is almost bare because little light gets through.", tekst: "Planted Sitka spruce in Haugesund, Norway" },
   },
   biokull: {
     src: "/foto/biokull.webp",
@@ -42,6 +45,7 @@ export const bilder = {
     lisens: "CC BY 2.0",
     lisensUrl: "https://creativecommons.org/licenses/by/2.0/deed.no",
     kilde: "https://commons.wikimedia.org/wiki/File:Biochar_pile.jpg",
+    en: { alt: "Close-up of a pile of black biochar in small pieces.", tekst: "Biochar" },
   },
   flis: {
     src: "/foto/flis.webp",
@@ -52,6 +56,7 @@ export const bilder = {
     fotograf: "US Forest Service",
     lisens: "Fri bruk",
     kilde: "https://commons.wikimedia.org/wiki/File:Wood_Shavings_ET5A7982_(30567130696).jpg",
+    en: { alt: "Large piles of light wood shavings in a warehouse, with conveyor belts adding more.", tekst: "Wood shavings for bedding", lisens: "Public domain" },
   },
   honer: {
     src: "/foto/honer-i-honsehus.webp",
@@ -63,6 +68,7 @@ export const bilder = {
     lisens: "CC0",
     lisensUrl: "https://creativecommons.org/publicdomain/zero/1.0/deed.no",
     kilde: "https://commons.wikimedia.org/wiki/File:Red_Hens_Coop.jpg",
+    en: { alt: "Many brown hens resting on the bedding in a poultry house, around a red drinker.", tekst: "Hens in a poultry house" },
   },
   biokullIJord: {
     src: "/foto/biokull-i-jord.webp",
@@ -74,6 +80,7 @@ export const bilder = {
     lisens: "CC BY-SA 4.0",
     lisensUrl: "https://creativecommons.org/licenses/by-sa/4.0/deed.no",
     kilde: "https://commons.wikimedia.org/wiki/File:Application_of_biochar.jpg",
+    en: { alt: "A man pours biochar from a bucket onto the soil in a field.", tekst: "Biochar being added to the soil" },
   },
   ungSitkagran: {
     src: "/foto/ung-sitkagran.webp",
@@ -85,7 +92,13 @@ export const bilder = {
     lisens: "CC BY-SA 4.0",
     lisensUrl: "https://creativecommons.org/licenses/by-sa/4.0/deed.no",
     kilde: "https://commons.wikimedia.org/wiki/File:Sitka_Spruce_(Picea_sitchensis)_plantation_-_Haugesund,_Norway_2021-08-04.jpg",
+    en: { alt: "Young Sitka spruce growing densely in front of an older Sitka spruce plantation.", tekst: "Sitka spruce in Haugesund, Norway" },
   },
 } satisfies Record<string, Bilde>;
 
 export type BildeNavn = keyof typeof bilder;
+
+// Gir alt-tekst, bildetekst og lisens på riktig språk
+export function bildeTekst(b: Bilde, lang: "no" | "en") {
+  return lang === "en" ? { alt: b.en.alt, tekst: b.en.tekst, lisens: b.en.lisens ?? b.lisens } : { alt: b.alt, tekst: b.tekst, lisens: b.lisens };
+}

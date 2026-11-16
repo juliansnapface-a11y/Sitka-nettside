@@ -2,21 +2,23 @@
 
 import { motion } from "motion/react";
 import { Kicker, RevealWords } from "./Text";
-import { kunder } from "./innhold";
+import { innhold } from "./innhold";
+import { useSprak } from "./Sprak";
 import Photo from "./Photo";
 
 // Kort liste over hvem strøet er for, med bilde ved siden av
 export default function Customers() {
+  const t = innhold[useSprak()].kunder;
   return (
     <section className="relative bg-ink px-5 py-20 md:px-10 md:py-28">
       <div className="grid gap-10 md:grid-cols-12 md:items-center md:gap-16">
         <div className="md:col-span-7">
-          <Kicker>For hvem</Kicker>
+          <Kicker>{t.kicker}</Kicker>
           <h2 className="mt-5 font-display text-4xl font-bold uppercase leading-[0.95] md:text-6xl">
-            <RevealWords text="Laget for" /> <RevealWords text="stallen." className="text-red" delay={0.1} />
+            <RevealWords text={t.tittelA} /> <RevealWords text={t.tittelB} className="text-red" delay={0.1} />
           </h2>
           <ul className="mt-10 border-t border-off/15">
-            {kunder.map((k, i) => (
+            {t.liste.map((k, i) => (
               <motion.li
                 key={k.navn}
                 className="group flex flex-col gap-1 border-b border-off/15 py-4 md:flex-row md:items-baseline md:justify-between md:gap-6"

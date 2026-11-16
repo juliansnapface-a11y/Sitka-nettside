@@ -3,19 +3,23 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useLoaded } from "./Text";
-
-const links = [
-  { href: "#problemet", label: "Problemet" },
-  { href: "#losningen", label: "Løsningen" },
-  { href: "#prosessen", label: "Prosessen" },
-  { href: "#baerekraft", label: "Bærekraft" },
-  { href: "/problem-og-losning", label: "Les mer" },
-];
+import { innhold } from "./innhold";
+import { SprakBytter, useSprak } from "./Sprak";
+import { sider } from "@/lib/sprak";
 
 const ease = [0.76, 0, 0.24, 1] as const;
 
 export default function Nav() {
   const loaded = useLoaded();
+  const lang = useSprak();
+  const m = innhold[lang].meny;
+  const links = [
+    { href: "#problemet", label: m.problemet },
+    { href: "#losningen", label: m.losningen },
+    { href: "#prosessen", label: m.prosessen },
+    { href: sider.baerekraft[lang], label: m.baerekraft },
+    { href: sider.problem[lang], label: m.lesMer },
+  ];
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY, scrollYProgress } = useScroll();
@@ -52,7 +56,7 @@ export default function Nav() {
           <img src="/media/sitka-ikon.svg" alt="" className="h-9 w-9 transition-transform duration-700 group-hover:rotate-180" />
           <span className="font-display text-2xl font-bold tracking-[0.12em] text-off">SITKA</span>
         </a>
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-7 lg:flex">
           {links.map((l) => (
             <a key={l.href} href={l.href} className="group relative font-display text-sm uppercase tracking-[0.2em] text-off">
               <span className="relative block overflow-hidden">
@@ -67,34 +71,38 @@ export default function Nav() {
             href="#kontakt"
             className="rounded-full border border-off px-5 py-2 font-display text-sm uppercase tracking-[0.2em] text-off transition-colors hover:bg-off hover:text-ink"
           >
-            Kontakt
+            {m.kontakt}
           </a>
+          <SprakBytter side="forside" className="text-off" />
         </nav>
+        <div className="relative z-50 flex items-center gap-4 lg:hidden">
+          <SprakBytter side="forside" className={open ? "text-ink" : "text-off"} />
         <button
-          className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
+          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5"
           onClick={() => setOpen((o) => !o)}
-          aria-label="Meny"
+          aria-label={m.menyKnapp}
         >
           <motion.span className="block h-0.5 w-7 bg-off" animate={open ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }} />
           <motion.span className="block h-0.5 w-7 bg-off" animate={open ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }} />
         </button>
+        </div>
       </motion.header>
 
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-30 flex flex-col justify-end bg-red px-6 pb-16 md:hidden"
+            className="fixed inset-0 z-30 flex flex-col justify-end bg-red px-6 pb-16 lg:hidden"
             initial={{ clipPath: "circle(0% at 92% 4%)" }}
             animate={{ clipPath: "circle(150% at 92% 4%)" }}
             exit={{ clipPath: "circle(0% at 92% 4%)" }}
             transition={{ duration: 0.8, ease }}
           >
-            {[...links, { href: "#kontakt", label: "Kontakt" }].map((l, i) => (
+            {[...links, { href: "#kontakt", label: m.kontakt }].map((l, i) => (
               <div key={l.href} className="overflow-hidden">
                 <motion.a
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="block font-display text-6xl font-bold uppercase leading-[1.05] text-ink"
+                  className="block font-display text-5xl font-bold uppercase leading-[1.1] text-ink"
                   initial={{ y: "100%" }}
                   animate={{ y: 0 }}
                   exit={{ y: "100%" }}

@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { LOADED_EVENT, ringSvgPaths } from "./rings";
+import { innhold } from "./innhold";
+import { useSprak } from "./Sprak";
 
 const paths = ringSvgPaths(100, 100, 92, 8);
 
@@ -10,6 +12,7 @@ const paths = ringSvgPaths(100, 100, 92, 8);
 export default function Preloader() {
   const [count, setCount] = useState(0);
   const [done, setDone] = useState(false);
+  const tekst = innhold[useSprak()].preloader;
 
   useEffect(() => {
     document.documentElement.style.overflow = "hidden";
@@ -89,7 +92,7 @@ export default function Preloader() {
               animate={{ y: 0 }}
               transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              Sitka · Bærekraftig strø
+              {tekst}
             </motion.p>
           </div>
           <div className="absolute bottom-8 right-8 font-display text-7xl font-bold tabular-nums text-red md:text-9xl">

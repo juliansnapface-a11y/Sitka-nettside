@@ -1,6 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { innhold } from "./innhold";
+import { useSprak } from "./Sprak";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { RevealWords, SplitLetters, useLoaded } from "./Text";
@@ -12,6 +14,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Hero() {
   const loaded = useLoaded();
+  const t = innhold[useSprak()].hero;
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const titleY = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
@@ -28,9 +31,9 @@ export default function Hero() {
           {/* Hovedoverskriften (h1) på forsiden: det Google leser som «hva siden handler om» */}
           <h1 className="font-display text-3xl font-medium uppercase leading-[1.05] md:text-5xl">
             <span className="sr-only">Sitka: </span>
-            <RevealWords text="Strø med biokull" play={loaded} delay={0.4} />
+            <RevealWords text={t.tittelA} play={loaded} delay={0.4} />
             <br />
-            <RevealWords text="fra sitkagran." play={loaded} delay={0.55} className="text-red" />
+            <RevealWords text={t.tittelB} play={loaded} delay={0.55} className="text-red" />
           </h1>
           <motion.p
             className="mt-6 max-w-sm text-sm leading-relaxed text-off/70 md:text-base"
@@ -38,7 +41,7 @@ export default function Hero() {
             animate={loaded ? { opacity: 1, y: 0 } : undefined}
             transition={{ delay: 0.9, duration: 1, ease }}
           >
-            Vi gjør en fremmed tresort om til biokull som skal binde lukt, fukt og ammoniakk i hønsehus og staller.
+            {t.ingress}
           </motion.p>
           <motion.div
             className="pointer-events-auto mt-8 flex flex-wrap gap-3"
@@ -50,17 +53,17 @@ export default function Hero() {
               href="#prosessen"
               className="group relative overflow-hidden rounded-full bg-red px-6 py-3 font-display text-sm uppercase tracking-[0.2em] text-off"
             >
-              <span className="relative z-10">Se hvordan</span>
+              <span className="relative z-10">{t.seHvordan}</span>
               <span className="absolute inset-0 translate-y-full rounded-full bg-off transition-transform duration-500 group-hover:translate-y-0" />
               <span className="absolute inset-0 z-10 flex translate-y-full items-center justify-center text-ink transition-transform duration-500 group-hover:translate-y-0">
-                Se hvordan
+                {t.seHvordan}
               </span>
             </a>
             <a
               href="#kontakt"
               className="rounded-full border border-off/30 px-6 py-3 font-display text-sm uppercase tracking-[0.2em] text-off transition-colors hover:border-red hover:text-red"
             >
-              Ta kontakt
+              {t.taKontakt}
             </a>
           </motion.div>
         </div>
@@ -73,7 +76,7 @@ export default function Hero() {
               animate={loaded ? { opacity: 1 } : undefined}
               transition={{ delay: 1.3 }}
             >
-              Scroll
+              {t.scroll}
               <motion.span
                 className="inline-block h-6 w-px bg-red"
                 animate={{ scaleY: [0, 1, 0], originY: [0, 0, 1] }}
