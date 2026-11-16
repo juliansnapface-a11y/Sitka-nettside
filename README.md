@@ -5,7 +5,11 @@ Live på https://sitka-nettside.vercel.app (oppdateres automatisk når noe pushe
 
 ## Endre tekst
 
-Nesten all tekst du trenger å endre ligger i **én fil**: `components/innhold.ts`.
+Teksten på forsiden ligger i **én fil**: `components/innhold.ts`. Den har to deler:
+`no` (norsk) og `en` (engelsk). Endrer du en tekst på norsk, husk å endre den engelske også.
+
+Undersidene har teksten sin øverst i egne filer: `components/sider/ProblemSide.tsx`
+og `components/sider/BaerekraftSide.tsx`.
 
 - **E-post og Instagram:** står under `kontakt`.
 - **Løsningen, prosessen og kundene:** tekstene står lenger ned i samme fil.
@@ -34,18 +38,20 @@ Gå så til http://localhost:3000 i nettleseren.
 
 | Fil | Hva det er |
 | --- | --- |
-| `app/page.tsx` | Rekkefølgen på seksjonene på forsiden |
+| `components/Forside.tsx` | Rekkefølgen på seksjonene på forsiden (`app/page.tsx` er norsk, `app/en/page.tsx` engelsk) |
+| `lib/sprak.ts` | Adressene til sidene på norsk og engelsk (brukes av språkvalget NO / EN) |
 | `app/globals.css` | Farger og fonter |
-| `components/innhold.ts` | Tekst og kontaktinfo |
+| `components/innhold.ts` | Tekst og kontaktinfo på forsiden, både norsk (`no`) og engelsk (`en`) |
 | `components/bilder.ts` + `Photo.tsx` | Bildene, bildetekstene og animasjonen når de dukker opp |
 | `components/Preloader.tsx` | Åpningsanimasjonen (årringene som tegnes) |
 | `components/Hero.tsx` + `RingScene.tsx` | Toppen av siden med 3D-årringen |
 | `components/Problem.tsx` | Ammoniakk og sitkagran |
 | `components/Solution.tsx` | Løsningen, med biokullkornet og kortene |
 | `components/Process.tsx` | De fire stegene som scroller sidelengs |
-| `components/Sustainability.tsx` | Bærekraft-delen (rolig, uten scroll-effekter) |
 | `components/Customers.tsx` | Hvem strøet er for |
-| `app/problem-og-losning/page.tsx` | Egen side som forklarer problemet og løsningen grundig |
+| `components/sider/ProblemSide.tsx` | Siden «Problemet og løsningen» (/problem-og-losning og /en/problem-and-solution) |
+| `components/sider/BaerekraftSide.tsx` | Siden «Bærekraft» (/baerekraft og /en/sustainability), med tekst på begge språk |
+| `components/sider/TrippelBunnlinje.tsx`, `Karbonvalg.tsx`, `Kretslop.tsx` | De interaktive figurene på bærekraft-siden |
 | `components/Contact.tsx` | Kontakt og bunnen av siden |
 
 ## Verktøy

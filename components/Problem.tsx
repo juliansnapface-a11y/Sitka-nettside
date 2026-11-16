@@ -1,6 +1,9 @@
 "use client";
 
 import { useRef } from "react";
+import { innhold } from "./innhold";
+import { useSprak } from "./Sprak";
+import { sider } from "@/lib/sprak";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -40,11 +43,11 @@ function Molecule() {
 }
 
 // Det store ordet «Problemet» med nummeret ved siden av
-function ProblemWord({ nr }: { nr: string }) {
+function ProblemWord({ nr, ord }: { nr: string; ord: string }) {
   return (
     <div className="flex items-start gap-3 md:gap-5">
       <h2 className="min-w-0 font-display text-[15vw] font-bold uppercase leading-[0.82] text-red md:text-[9.5vw]">
-        <SplitLetters text="Problemet" stagger={0.04} />
+        <SplitLetters text={ord} stagger={0.04} />
       </h2>
       <span className="mt-[0.4em] font-display text-sm tracking-[0.3em] text-off/50 md:text-xl">{nr}</span>
     </div>
@@ -53,6 +56,8 @@ function ProblemWord({ nr }: { nr: string }) {
 
 export default function Problem() {
   const ref = useRef<HTMLElement>(null);
+  const lang = useSprak();
+  const t = innhold[lang].problem;
 
   useGSAP(
     () => {
@@ -85,16 +90,16 @@ export default function Problem() {
         </div>
         <div className="relative grid gap-16 md:grid-cols-12">
           <div className="md:col-span-7">
-            <ProblemWord nr="01" />
+            <ProblemWord nr="01" ord={t.ord} />
             <h3 className="mt-8 font-display text-3xl font-bold uppercase leading-[0.95] md:text-5xl">
-              <RevealWords text="Stikkende luft" />
+              <RevealWords text={t.ammoniakkA} />
               <br />
-              <RevealWords text="i stallen." className="text-red" delay={0.15} />
+              <RevealWords text={t.ammoniakkB} className="text-red" delay={0.15} />
             </h3>
             <ScrubText
               className="mt-10 max-w-2xl text-2xl font-light leading-snug md:text-4xl"
-              text="Når urin og møkk brytes ned, dannes ammoniakk. Gassen lukter stikkende, gjør lufta tung og kan irritere luftveiene og øynene til både dyr og mennesker."
-              highlight={["ammoniakk", "luftveiene"]}
+              text={t.ammoniakkTekst}
+              highlight={t.ammoniakkUthev}
             />
           </div>
           <div className="flex items-center justify-center md:col-span-5">
@@ -112,16 +117,16 @@ export default function Problem() {
             <Photo navn="sitkagran" frame="aspect-[4/5]" sizes="(min-width: 768px) 40vw, 100vw" />
           </div>
           <div className="order-1 md:order-2 md:col-span-7">
-            <ProblemWord nr="02" />
+            <ProblemWord nr="02" ord={t.ord} />
             <h3 className="mt-8 font-display text-3xl font-bold uppercase leading-[0.95] md:text-5xl">
-              <RevealWords text="En gran" />
+              <RevealWords text={t.granA} />
               <br />
-              <RevealWords text="på avveie." className="text-red" delay={0.15} />
+              <RevealWords text={t.granB} className="text-red" delay={0.15} />
             </h3>
             <ScrubText
               className="mt-10 max-w-2xl text-2xl font-light leading-snug md:text-4xl"
-              text="Sitkagran stenger ute lyset, så plantene som hører hjemme her forsvinner. Etter dem forsvinner insekter og fugler. Treet truer blant annet den sterkt truede kystlyngheia, og det sprer seg av seg selv."
-              highlight={["lyset", "kystlynghei"]}
+              text={t.granTekst}
+              highlight={t.granUthev}
             />
             <motion.p
               className="mt-8 max-w-md text-sm text-off/50"
@@ -129,13 +134,13 @@ export default function Problem() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
             >
-              Sitkagran er en fremmed art i norsk natur. Vi ser treet som en ressurs i stedet for et problem.
+              {t.granNotat}
             </motion.p>
             <a
-            href="/problem-og-losning"
+            href={sider.problem[lang]}
             className="group mt-10 inline-flex items-center gap-3 rounded-full border border-off/30 px-6 py-3 font-display text-sm uppercase tracking-[0.2em] text-off transition-colors hover:border-red hover:text-red"
           >
-            Les mer om problemet
+            {t.lesMer}
             <span className="transition-transform group-hover:translate-x-1">→</span>
           </a>
           </div>

@@ -3,15 +3,19 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "motion/react";
-import { bilder, type Bilde, type BildeNavn } from "./bilder";
+import { bilder, bildeTekst, type Bilde, type BildeNavn } from "./bilder";
+import { innhold } from "./innhold";
+import { useSprak } from "./Sprak";
 
 const ease = [0.76, 0, 0.24, 1] as const;
 
 // Liten bildetekst med fotograf og lisens (lisensen krever at vi viser dette)
 export function Kreditt({ b, className = "" }: { b: Bilde; className?: string }) {
+  const lang = useSprak();
+  const t = bildeTekst(b, lang);
   return (
     <span className={className}>
-      {b.tekst} · Foto:{" "}
+      {t.tekst} · {innhold[lang].foto}:{" "}
       {b.kilde ? (
         <a href={b.kilde} target="_blank" rel="noreferrer" className="underline decoration-current/30 underline-offset-2 hover:text-red">
           {b.fotograf}
@@ -19,15 +23,15 @@ export function Kreditt({ b, className = "" }: { b: Bilde; className?: string })
       ) : (
         b.fotograf
       )}
-      {b.lisens && (
+      {t.lisens && (
         <>
           ,{" "}
           {b.lisensUrl ? (
             <a href={b.lisensUrl} target="_blank" rel="noreferrer" className="underline decoration-current/30 underline-offset-2 hover:text-red">
-              {b.lisens}
+              {t.lisens}
             </a>
           ) : (
-            b.lisens
+            t.lisens
           )}
         </>
       )}
@@ -52,6 +56,7 @@ export default function Photo({
   dark?: boolean;
 }) {
   const b = bilder[navn];
+  const lang = useSprak();
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["-7%", "7%"]);
@@ -68,7 +73,7 @@ export default function Photo({
         transition={{ duration: 1.4, ease }}
       >
         <motion.div style={{ y, scale }} className="absolute inset-0 will-change-transform">
-          <Image src={b.src} alt={b.alt} fill sizes={sizes} className="object-cover" style={{ objectPosition: position }} />
+          <Image src={b.src} alt={bildeTekst(b, lang).alt} fill sizes={sizes} className="object-cover" style={{ objectPosition: position }} />
         </motion.div>
         {/* svak mørk og rød tone så bildene passer med fargene på siden */}
         {dark && <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" />}

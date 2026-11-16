@@ -5,8 +5,9 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
-import { prosess } from "./innhold";
-import { bilder } from "./bilder";
+import { innhold } from "./innhold";
+import { bilder, bildeTekst } from "./bilder";
+import { useSprak } from "./Sprak";
 import { Kreditt } from "./Photo";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -123,6 +124,8 @@ function PyrolyseVideo() {
 export default function Process() {
   const ref = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
+  const lang = useSprak();
+  const t = innhold[lang].prosess;
 
   useGSAP(
     () => {
@@ -198,7 +201,7 @@ export default function Process() {
       <div className="absolute left-5 top-8 z-10 md:left-10 md:top-10">
         <div className="flex items-center gap-3 font-display text-xs uppercase tracking-[0.35em] text-red md:text-sm">
           <span className="block h-px w-10 bg-red" />
-          Prosessen · fra tre til jord
+          {t.kicker}
         </div>
       </div>
       <div className="absolute bottom-8 left-10 right-10 z-10 hidden h-[3px] bg-ink/10 md:block">
@@ -208,19 +211,19 @@ export default function Process() {
       <div ref={track} className="flex flex-col pt-20 md:h-full md:w-max md:flex-row md:items-center md:pt-0">
         <div className="panel flex w-full shrink-0 flex-col justify-center px-5 py-16 md:h-full md:w-[60vw] md:px-10">
           <h2 className="font-display text-6xl font-bold uppercase leading-[0.9] md:text-[8vw]">
-            Fra
+            {t.tittelA}
             <br />
-            <span className="text-red">problem</span>
+            <span className="text-red">{t.tittelB}</span>
             <br />
-            til ressurs.
+            {t.tittelC}
           </h2>
           <p className="mt-8 max-w-md text-lg text-ink/70">
-            Fire steg fra en uønsket gran til et strø som gjør stallen bedre, og så tilbake til jorda.
+            {t.ingress}
           </p>
-          <p className="mt-10 hidden font-display text-sm uppercase tracking-[0.3em] text-ink/40 md:block">Scroll →</p>
+          <p className="mt-10 hidden font-display text-sm uppercase tracking-[0.3em] text-ink/40 md:block">{t.scroll}</p>
         </div>
 
-        {prosess.map((s, i) => (
+        {t.steg.map((s, i) => (
           <article
             key={s.nr}
             className="panel relative flex w-full shrink-0 flex-col gap-10 border-t border-ink/10 px-5 py-16 md:h-full md:w-[80vw] md:flex-row md:items-center md:gap-16 md:border-l md:border-t-0 md:px-16 lg:w-[70vw]"
@@ -237,14 +240,14 @@ export default function Process() {
                 <div className="relative h-full w-full overflow-hidden rounded-3xl bg-ink">
                   <PyrolyseVideo />
                   <div className="absolute bottom-4 left-4 rounded-full bg-red px-3 py-1 font-display text-xs uppercase tracking-[0.2em] text-off">
-                    ca. 600 °C · nesten uten O<sub className="text-[0.7em]">2</sub>
+                    {t.videoMerke}<sub className="text-[0.7em]">2</sub>
                   </div>
                 </div>
               ) : s.bilde ? (
                 <div className="visual relative h-full w-full overflow-hidden rounded-3xl bg-ink">
                   <Image
                     src={bilder[s.bilde].src}
-                    alt={bilder[s.bilde].alt}
+                    alt={bildeTekst(bilder[s.bilde], lang).alt}
                     fill
                     sizes="(min-width: 768px) 35vw, 100vw"
                     className="photo object-cover"

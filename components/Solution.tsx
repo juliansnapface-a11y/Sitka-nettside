@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { innhold } from "./innhold";
+import { useSprak } from "./Sprak";
+import { sider } from "@/lib/sprak";
 import { motion, useInView, useMotionTemplate, useMotionValue, useScroll, useSpring, useTransform } from "motion/react";
 import { Kicker, RevealWords } from "./Text";
-import { losning } from "./innhold";
 import Photo from "./Photo";
 
 function rand(seed: number) {
@@ -210,6 +212,8 @@ function TiltCard({ nr, tittel, tekst, i }: { nr: string; tittel: string; tekst:
 
 export default function Solution() {
   const ref = useRef<HTMLElement>(null);
+  const lang = useSprak();
+  const t = innhold[lang].losning;
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const rotate = useTransform(scrollYProgress, [0, 1], [-40, 40]);
   const y = useTransform(scrollYProgress, [0, 1], [80, -80]);
@@ -218,11 +222,11 @@ export default function Solution() {
     <section id="losningen" ref={ref} className="relative overflow-hidden bg-ink px-5 py-28 md:px-10 md:py-40">
       <div className="grid items-center gap-16 md:grid-cols-12">
         <div className="md:col-span-6">
-          <Kicker>Løsningen</Kicker>
+          <Kicker>{t.kicker}</Kicker>
           <h2 className="mt-6 font-display text-6xl font-bold uppercase leading-[0.9] md:text-[9vw]">
-            <RevealWords text="Strø med" />
+            <RevealWords text={t.tittelA} />
             <br />
-            <RevealWords text="biokull." className="text-red" delay={0.15} />
+            <RevealWords text={t.tittelB} className="text-red" delay={0.15} />
           </h2>
           <motion.p
             className="mt-8 max-w-lg text-lg text-off/70 md:text-xl"
@@ -231,13 +235,13 @@ export default function Solution() {
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.3 }}
           >
-            Vi blander biokull fra sitkagran med flis. Biokullet skal fungere som en svamp i strøet og fange opp det som ellers ville lukte og fordampe.
+            {t.tekst}
           </motion.p>
           <a
-            href="/problem-og-losning#biokull"
+            href={`${sider.problem[lang]}#biokull`}
             className="group mt-8 inline-flex items-center gap-3 rounded-full border border-off/30 px-6 py-3 font-display text-sm uppercase tracking-[0.2em] text-off transition-colors hover:border-red hover:text-red"
           >
-            Les mer om løsningen
+            {t.lesMer}
             <span className="transition-transform group-hover:translate-x-1">→</span>
           </a>
           <Photo navn="biokull" className="mt-12 max-w-lg" frame="aspect-[16/10]" sizes="(min-width: 768px) 40vw, 100vw" />
@@ -248,7 +252,7 @@ export default function Solution() {
       </div>
 
       <div className="mt-24 grid gap-5 md:mt-32 md:grid-cols-3">
-        {losning.map((l, i) => (
+        {t.kort.map((l, i) => (
           <TiltCard key={l.nr} {...l} i={i} />
         ))}
       </div>
