@@ -25,11 +25,13 @@ export default function Hero() {
 
       <motion.div style={{ opacity: fade }} className="pointer-events-none relative z-10 flex h-full flex-col justify-between px-5 pb-6 pt-28 md:px-10 md:pb-8">
         <div className="max-w-xl">
-          <h2 className="font-display text-3xl font-medium uppercase leading-[1.05] md:text-5xl">
+          {/* Hovedoverskriften (h1) på forsiden: det Google leser som «hva siden handler om» */}
+          <h1 className="font-display text-3xl font-medium uppercase leading-[1.05] md:text-5xl">
+            <span className="sr-only">Sitka: </span>
             <RevealWords text="Strø med biokull" play={loaded} delay={0.4} />
             <br />
             <RevealWords text="fra sitkagran." play={loaded} delay={0.55} className="text-red" />
-          </h2>
+          </h1>
           <motion.p
             className="mt-6 max-w-sm text-sm leading-relaxed text-off/70 md:text-base"
             initial={{ opacity: 0, y: 20 }}
@@ -79,9 +81,9 @@ export default function Hero() {
               />
             </motion.span>
           </div>
-          <h1 className="font-display text-[27vw] font-bold leading-[0.8] tracking-[-0.01em] md:text-[23vw]">
+          <p aria-hidden className="font-display text-[27vw] font-bold leading-[0.8] tracking-[-0.01em] md:text-[23vw]">
             <SplitLetters text="SITKA" play={loaded} delay={0.1} stagger={0.08} />
-          </h1>
+          </p>
         </motion.div>
       </motion.div>
     </section>

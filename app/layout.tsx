@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Oswald } from "next/font/google";
 import "./globals.css";
+import StrukturertData from "@/components/StrukturertData";
+import { nettstedUrl, nettstedNavn, forsideTittel, forsideBeskrivelse, sokeord, googleVerifisering } from "@/lib/nettsted";
 
 const oswald = Oswald({
   variable: "--font-oswald",
@@ -13,21 +15,32 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const beskrivelse =
-  "Sitka lager strø med biokull fra sitkagran, en fremmed tresort i norsk natur. Biokullet skal binde lukt, fukt og ammoniakk i staller og hønsehus, og brukt strø kan bli jordforbedring.";
-
 export const metadata: Metadata = {
-  // Adressen til nettsiden. Bytt denne hvis dere får eget domene (f.eks. https://sitka.no)
-  metadataBase: new URL("https://sitka-nettside.vercel.app"),
-  title: "Sitka – Bærekraftig strø av biokull",
-  description: beskrivelse,
+  // Adressen, tittel, beskrivelse og søkeord endres i lib/nettsted.ts
+  metadataBase: new URL(nettstedUrl),
+  title: {
+    default: forsideTittel,
+    template: "%s | Sitka",
+  },
+  description: forsideBeskrivelse,
+  keywords: sokeord,
+  applicationName: nettstedNavn,
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
   openGraph: {
-    title: "Sitka – Bærekraftig strø av biokull",
-    description: beskrivelse,
+    title: forsideTittel,
+    description: forsideBeskrivelse,
+    url: "/",
     locale: "nb_NO",
     type: "website",
-    siteName: "Sitka",
+    siteName: nettstedNavn,
   },
+  twitter: {
+    card: "summary_large_image",
+    title: forsideTittel,
+    description: forsideBeskrivelse,
+  },
+  ...(googleVerifisering ? { verification: { google: googleVerifisering } } : {}),
 };
 
 export const viewport: Viewport = {
@@ -36,8 +49,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="no" className={`${oswald.variable} ${inter.variable} antialiased`}>
-      <body>{children}</body>
+    <html lang="nb" className={`${oswald.variable} ${inter.variable} antialiased`}>
+      <body>
+        <StrukturertData />
+        {children}
+      </body>
     </html>
   );
 }
