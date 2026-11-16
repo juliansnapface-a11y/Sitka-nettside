@@ -36,7 +36,6 @@ type Tekst = {
   kretslop: { kicker: string; tittel: string; ingress: string; steg: KretslopSteg[]; hint: string };
   dyr: { kicker: string; tittel: string; kort: { tittel: string; tekst: string }[] };
   mal: { kicker: string; tittel: string; ingress: string; liste: { nr: string; navn: string; tekst: string }[] };
-  arlig: { kicker: string; tittel: string; avsnitt: string[]; punkter: string[] };
 };
 
 const tekst: Record<Sprak, Tekst> = {
@@ -44,7 +43,7 @@ const tekst: Record<Sprak, Tekst> = {
     kicker: "Bærekraft",
     tittel: ["Bra for naturen.", "Bra for stallen.", "Bra for jorda."],
     ingress:
-      "Sitka er laget for å gjøre nytte flere ganger. Vi tar en fremmed tresort ut av norsk natur, gjør den om til biokull, bruker den som strø i stallen og sender den videre som gjødsel til jorda. Her er alt om hvorfor vi mener det er bærekraftig, og hva vi fortsatt må finne ut av.",
+      "Sitka er laget for å gjøre nytte flere ganger. Vi tar en fremmed tresort ut av norsk natur, gjør den om til biokull, bruker den som strø i stallen og sender den videre som gjødsel til jorda. Her er alt om hvorfor vi mener det er bærekraftig.",
     stikkord: ["Lagrer karbon", "Tar vare på nitrogen", "Sirkulært", "Fjerner en fremmed art", "Bedre luft"],
     innholdsliste: "På denne siden",
     deler: [
@@ -55,7 +54,6 @@ const tekst: Record<Sprak, Tekst> = {
       { id: "kretslop", tittel: "Kretsløpet" },
       { id: "dyr", tittel: "Dyr og folk" },
       { id: "maal", tittel: "FNs mål" },
-      { id: "arlig", tittel: "Det vi ikke vet" },
     ],
     trippel: {
       kicker: "01 · Trippel bunnlinje",
@@ -200,27 +198,13 @@ const tekst: Record<Sprak, Tekst> = {
         { nr: "15", navn: "Livet på land", tekst: "Vi vil hjelpe til med å fjerne en fremmed art og gi kystlynghei og stedegen natur plass igjen." },
       ],
     },
-    arlig: {
-      kicker: "08 · Ærlig talt",
-      tittel: "Det vi ikke vet ennå",
-      avsnitt: [
-        "Vi tror på ideen, men vi vil ikke love mer enn vi kan stå for. Sitka er ikke testet i en ekte stall ennå. Derfor skriver vi at produktet **skal** og **kan**, ikke at det gjør det.",
-        "Dette vil vi finne ut av når vi tester:",
-      ],
-      punkter: [
-        "Hvor mye ammoniakken i stallen faktisk går ned.",
-        "Hvor lenge strøet holder seg tørt sammenlignet med vanlig strø.",
-        "Hvor mye karbon som lagres per kilo strø, og hvor lenge.",
-        "Hva det koster å hente og frakte sitkagran, og hvor det lønner seg.",
-      ],
-    },
   },
 
   en: {
     kicker: "Sustainability",
     tittel: ["Good for nature.", "Good for the stable.", "Good for the soil."],
     ingress:
-      "Sitka is designed to be useful more than once. We take an invasive tree out of Norwegian nature, turn it into biochar, use it as bedding in the stable and pass it on as fertiliser for the soil. Here is everything about why we think this is sustainable, and what we still need to find out.",
+      "Sitka is designed to be useful more than once. We take an invasive tree out of Norwegian nature, turn it into biochar, use it as bedding in the stable and pass it on as fertiliser for the soil. Here is everything about why we think this is sustainable.",
     stikkord: ["Stores carbon", "Keeps nitrogen", "Circular", "Removes an invasive species", "Cleaner air"],
     innholdsliste: "On this page",
     deler: [
@@ -231,7 +215,6 @@ const tekst: Record<Sprak, Tekst> = {
       { id: "kretslop", tittel: "The cycle" },
       { id: "dyr", tittel: "Animals and people" },
       { id: "maal", tittel: "UN goals" },
-      { id: "arlig", tittel: "What we don't know" },
     ],
     trippel: {
       kicker: "01 · Triple bottom line",
@@ -374,20 +357,6 @@ const tekst: Record<Sprak, Tekst> = {
         { nr: "12", navn: "Responsible consumption and production", tekst: "We make a product from a resource that would otherwise go to waste, and it is used more than once." },
         { nr: "13", navn: "Climate action", tekst: "Biochar stores carbon in the soil instead of letting it return to the air." },
         { nr: "15", navn: "Life on land", tekst: "We want to help remove an invasive species and give coastal heathland and native nature its space back." },
-      ],
-    },
-    arlig: {
-      kicker: "08 · To be honest",
-      tittel: "What we don't know yet",
-      avsnitt: [
-        "We believe in the idea, but we don't want to promise more than we can stand behind. Sitka has not been tested in a real stable yet. That is why we say the product **is designed to** and **can**, not that it does.",
-        "This is what we want to find out when we test it:",
-      ],
-      punkter: [
-        "How much the ammonia in the stable actually goes down.",
-        "How long the bedding stays dry compared with ordinary bedding.",
-        "How much carbon is stored per kilo of bedding, and for how long.",
-        "What it costs to collect and transport Sitka spruce, and where it pays off.",
       ],
     },
   },
@@ -586,21 +555,6 @@ export default function BaerekraftSide({ lang }: { lang: Sprak }) {
                 <p className="mt-3 text-ink/80">{m.tekst}</p>
               </div>
             ))}
-          </div>
-        </Del>
-
-        {/* 08 ærlig talt */}
-        <Del id="arlig" kicker={t.arlig.kicker} tittel={t.arlig.tittel}>
-          <div className="grid gap-10 md:grid-cols-2">
-            <Avsnitt avsnitt={t.arlig.avsnitt} />
-            <ol className="space-y-3">
-              {t.arlig.punkter.map((p, i) => (
-                <li key={p} className="flex gap-4 rounded-2xl border border-off/15 p-5">
-                  <span className="font-display text-sm text-red">0{i + 1}</span>
-                  <span className="text-off/80">{p}</span>
-                </li>
-              ))}
-            </ol>
           </div>
         </Del>
 
