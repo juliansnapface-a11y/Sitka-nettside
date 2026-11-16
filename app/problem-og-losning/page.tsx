@@ -9,9 +9,19 @@ import { kontakt } from "@/components/innhold";
 // Siden er med vilje rolig: ingen animasjoner eller scroll-effekter.
 
 export const metadata: Metadata = {
-  title: "Problemet og løsningen – Sitka",
+  title: "Biokull i strø: problemet og løsningen",
   description:
-    "Hvorfor ammoniakk i stallen og sitkagran i naturen er to problemer, og hvordan biokull fra sitkagran kan løse begge.",
+    "Hvorfor ammoniakk i fjøs, stall og hønsehus og sitkagran i naturen er to problemer, og hvordan strø med biokull (biochar) fra sitkagran kan løse begge.",
+  alternates: { canonical: "/problem-og-losning" },
+  openGraph: {
+    title: "Biokull i strø: problemet og løsningen | Sitka",
+    description:
+      "Hvordan strø med biokull (biochar) fra sitkagran skal binde ammoniakk i stallen og gjøre en fremmed tresort til en ressurs.",
+    url: "/problem-og-losning",
+    locale: "nb_NO",
+    type: "article",
+    siteName: "Sitka",
+  },
 };
 
 function Bilde({ navn, className = "", position = "center" }: { navn: BildeNavn; className?: string; position?: string }) {
@@ -88,7 +98,7 @@ export default function ProblemOgLosning() {
       <main className="mx-auto max-w-6xl px-5 md:px-10">
         {/* Innledning */}
         <div className="py-16 md:py-24">
-          <p className="font-display text-xs uppercase tracking-[0.35em] text-red md:text-sm">Grundig forklart</p>
+          <p className="font-display text-xs uppercase tracking-[0.35em] text-red md:text-sm">Strø med biokull, grundig forklart</p>
           <h1 className="mt-6 font-display text-6xl font-bold uppercase leading-[0.9] md:text-8xl">
             Problemet
             <br />
@@ -96,8 +106,8 @@ export default function ProblemOgLosning() {
           </h1>
           <p className="mt-8 max-w-2xl text-xl leading-relaxed text-off/75">
             Sitka handler om to problemer som ikke ser ut til å ha noe med hverandre å gjøre: dårlig luft i staller og
-            hønsehus, og et fremmed tre som sprer seg i norsk natur. Her forklarer vi begge, og hvordan biokull kan koble dem
-            sammen.
+            hønsehus, og et fremmed tre som sprer seg i norsk natur. Her forklarer vi begge, og hvordan biokull (på engelsk: biochar) kan
+            koble dem sammen.
           </p>
 
           <nav aria-label="Innhold" className="mt-12 grid gap-2 sm:grid-cols-2 md:grid-cols-5">
