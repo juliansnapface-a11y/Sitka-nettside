@@ -362,6 +362,9 @@ const tekst: Record<Sprak, Tekst> = {
   },
 };
 
+// Fargene FN bruker for bærekraftsmål 12, 13 og 15
+const malFarge: Record<string, string> = { "12": "#BF8B2E", "13": "#3F7E44", "15": "#56C02B" };
+
 function Del({ id, kicker, tittel, children }: { id: string; kicker: string; tittel: string; children: React.ReactNode }) {
   return (
     <section id={id} className="scroll-mt-28 border-t border-off/10 py-20 md:py-28">
@@ -549,10 +552,20 @@ export default function BaerekraftSide({ lang }: { lang: Sprak }) {
           <p className="max-w-3xl text-lg leading-relaxed text-off/75">{t.mal.ingress}</p>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {t.mal.liste.map((m) => (
-              <div key={m.nr} className="flex flex-col rounded-3xl bg-red p-6 text-ink md:p-8">
-                <span className="font-display text-7xl font-bold leading-none">{m.nr}</span>
-                <h3 className="mt-4 font-display text-2xl font-bold uppercase leading-tight">{m.navn}</h3>
-                <p className="mt-3 text-ink/80">{m.tekst}</p>
+              // FNs egne farger for målene
+              <div
+                key={m.nr}
+                className="relative flex flex-col overflow-hidden rounded-3xl p-6 text-white md:p-8"
+                style={{ backgroundColor: malFarge[m.nr] }}
+              >
+                <svg viewBox="0 0 100 100" className="pointer-events-none absolute -right-10 -top-10 w-44 opacity-20" aria-hidden="true">
+                  {[48, 38, 28, 18].map((r) => (
+                    <circle key={r} cx="50" cy="50" r={r} fill="none" stroke="white" strokeWidth="3" />
+                  ))}
+                </svg>
+                <span className="relative font-display text-7xl font-bold leading-none">{m.nr}</span>
+                <h3 className="relative mt-4 font-display text-2xl font-bold uppercase leading-tight">{m.navn}</h3>
+                <p className="relative mt-3 text-white/90">{m.tekst}</p>
               </div>
             ))}
           </div>
