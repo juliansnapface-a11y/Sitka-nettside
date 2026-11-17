@@ -13,8 +13,6 @@ type Tekst = {
   tittel: string[];
   ingress: string;
   stikkord: string[];
-  innholdsliste: string;
-  deler: { id: string; tittel: string }[];
   trippel: { kicker: string; tittel: string; ingress: string; figur: TrippelTekst };
   karbon: {
     kicker: string;
@@ -45,16 +43,6 @@ const tekst: Record<Sprak, Tekst> = {
     ingress:
       "Sitka er laget for å gjøre nytte flere ganger. Vi tar en fremmed tresort ut av norsk natur, gjør den om til biokull, bruker den som strø i stallen og sender den videre som gjødsel til jorda. Her er alt om hvorfor vi mener det er bærekraftig.",
     stikkord: ["Lagrer karbon", "Tar vare på nitrogen", "Sirkulært", "Fjerner en fremmed art", "Bedre luft"],
-    innholdsliste: "På denne siden",
-    deler: [
-      { id: "trippel", tittel: "Trippel bunnlinje" },
-      { id: "karbon", tittel: "Karbon" },
-      { id: "nitrogen", tittel: "Nitrogen" },
-      { id: "natur", tittel: "Naturen" },
-      { id: "kretslop", tittel: "Kretsløpet" },
-      { id: "dyr", tittel: "Dyr og folk" },
-      { id: "maal", tittel: "FNs mål" },
-    ],
     trippel: {
       kicker: "01 · Trippel bunnlinje",
       tittel: "Tre ting på en gang",
@@ -206,16 +194,6 @@ const tekst: Record<Sprak, Tekst> = {
     ingress:
       "Sitka is designed to be useful more than once. We take an invasive tree out of Norwegian nature, turn it into biochar, use it as bedding in the stable and pass it on as fertiliser for the soil. Here is everything about why we think this is sustainable.",
     stikkord: ["Stores carbon", "Keeps nitrogen", "Circular", "Removes an invasive species", "Cleaner air"],
-    innholdsliste: "On this page",
-    deler: [
-      { id: "trippel", tittel: "Triple bottom line" },
-      { id: "karbon", tittel: "Carbon" },
-      { id: "nitrogen", tittel: "Nitrogen" },
-      { id: "natur", tittel: "Nature" },
-      { id: "kretslop", tittel: "The cycle" },
-      { id: "dyr", tittel: "Animals and people" },
-      { id: "maal", tittel: "UN goals" },
-    ],
     trippel: {
       kicker: "01 · Triple bottom line",
       tittel: "Three things at once",
@@ -423,22 +401,6 @@ export default function BaerekraftSide({ lang }: { lang: Sprak }) {
                 </li>
               ))}
             </ul>
-
-            <nav aria-label={t.innholdsliste} className="mt-12">
-              <p className="font-display text-xs uppercase tracking-[0.35em] text-off/50">{t.innholdsliste}</p>
-              <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
-                {t.deler.map((d, i) => (
-                  <a
-                    key={d.id}
-                    href={`#${d.id}`}
-                    className="rounded-xl border border-off/15 px-4 py-3 transition-colors hover:border-red hover:text-red"
-                  >
-                    <span className="block font-display text-xs text-red">0{i + 1}</span>
-                    <span className="font-display text-base uppercase tracking-wide">{d.tittel}</span>
-                  </a>
-                ))}
-              </div>
-            </nav>
           </div>
         </div>
 
