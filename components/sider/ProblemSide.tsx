@@ -17,7 +17,6 @@ type Tekst = {
   tittelA: string;
   tittelB: string;
   ingress: string;
-  innholdsliste: string;
   kapitler: { id: string; nr: string; kicker: string; tittel: string; blokker: Blokk[] }[];
 };
 
@@ -28,7 +27,6 @@ const tekst: Record<Sprak, Tekst> = {
     tittelB: "og løsningen.",
     ingress:
       "Sitka handler om to problemer som ikke ser ut til å ha noe med hverandre å gjøre: dårlig luft i staller og hønsehus, og et fremmed tre som sprer seg i norsk natur. Her forklarer vi begge, og hvordan biokull (på engelsk: biochar) kan koble dem sammen.",
-    innholdsliste: "Innhold",
     kapitler: [
       {
         id: "ammoniakk",
@@ -172,7 +170,6 @@ const tekst: Record<Sprak, Tekst> = {
     tittelB: "and the solution.",
     ingress:
       "Sitka is about two problems that don't seem to have anything to do with each other: poor air in stables and poultry houses, and an invasive tree spreading through Norwegian nature. Here we explain both, and how biochar can connect them.",
-    innholdsliste: "Contents",
     kapitler: [
       {
         id: "ammoniakk",
@@ -354,19 +351,6 @@ export default function ProblemSide({ lang }: { lang: Sprak }) {
             <span className="text-red">{t.tittelB}</span>
           </h1>
           <p className="mt-8 max-w-2xl text-xl leading-relaxed text-off/75">{t.ingress}</p>
-
-          <nav aria-label={t.innholdsliste} className="mt-12 grid gap-2 sm:grid-cols-2 md:grid-cols-5">
-            {t.kapitler.map((k) => (
-              <a
-                key={k.id}
-                href={`#${k.id}`}
-                className="rounded-xl border border-off/15 px-4 py-3 transition-colors hover:border-red hover:text-red"
-              >
-                <span className="block font-display text-xs text-red">{k.nr}</span>
-                <span className="font-display text-base uppercase tracking-wide">{k.tittel}</span>
-              </a>
-            ))}
-          </nav>
         </div>
 
         {t.kapitler.map((k) => (
