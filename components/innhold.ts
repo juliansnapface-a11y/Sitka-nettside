@@ -30,8 +30,9 @@ const no = {
   },
   preloader: "Sitka · Bærekraftig strø",
   hero: {
-    tittelA: "Strø med biokull",
-    tittelB: "fra sitkagran.",
+    etikett: "Strøprodukt for hønsehus og stall",
+    tittel: ["Strø med biokull", "fra", "sitkagran."],
+    merke: "Fra invasiv gran",
     ingress: "Vi gjør en fremmed tresort om til biokull som skal binde lukt, fukt og ammoniakk i hønsehus og staller.",
     seHvordan: "Se hvordan",
     taKontakt: "Ta kontakt",
@@ -121,8 +122,7 @@ const no = {
   },
   kunder: {
     kicker: "For hvem",
-    tittelA: "Laget for",
-    tittelB: "stallen.",
+    tittel: ["Laget", "for", "stallen."],
     liste: [
       { navn: "Hønsehus", tekst: "Lukt og ammoniakk er et kjent problem i hønsehus." },
       { navn: "Rideskoler", tekst: "Mange hester, mye strø og mange folk i stallen hver dag." },
@@ -132,8 +132,7 @@ const no = {
   },
   kontakt: {
     kicker: "Kontakt",
-    tittelA: "Vil du teste",
-    tittelB: "Sitka i stallen?",
+    tittel: ["Vil du teste Sitka", "i", "stallen?"],
     tekst: "Har du en stall eller et hønsehus, eller vil du samarbeide med oss? Send oss en melding.",
     epostSnart: "E-post kommer snart",
     sendEpost: "Send e-post",
@@ -156,8 +155,9 @@ const en: Innhold = {
   },
   preloader: "Sitka · Sustainable bedding",
   hero: {
-    tittelA: "Biochar bedding",
-    tittelB: "from Sitka spruce.",
+    etikett: "Bedding for poultry houses and stables",
+    tittel: ["Biochar bedding", "from", "Sitka spruce."],
+    merke: "From invasive spruce",
     ingress:
       "We turn an invasive tree species into biochar, designed to bind odour, moisture and ammonia in poultry houses and stables.",
     seHvordan: "See how",
@@ -247,8 +247,7 @@ const en: Innhold = {
   },
   kunder: {
     kicker: "Who it's for",
-    tittelA: "Made for",
-    tittelB: "the stable.",
+    tittel: ["Made", "for", "the stable."],
     liste: [
       { navn: "Poultry houses", tekst: "Odour and ammonia are a well-known problem in poultry houses." },
       { navn: "Riding schools", tekst: "Lots of horses, lots of bedding and lots of people in the stable every day." },
@@ -258,8 +257,7 @@ const en: Innhold = {
   },
   kontakt: {
     kicker: "Contact",
-    tittelA: "Want to try",
-    tittelB: "Sitka in your stable?",
+    tittel: ["Want to try Sitka", "in", "your stable?"],
     tekst: "Do you have a stable or a poultry house, or would you like to work with us? Send us a message.",
     epostSnart: "Email coming soon",
     sendEpost: "Send email",

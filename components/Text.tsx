@@ -155,29 +155,44 @@ export function PlakatTittel({
   deler,
   className = "",
   farger = ["", "", "text-red"],
+  som = "h2",
+  play,
+  delay = 0,
+  skjult,
 }: {
   deler: string[];
+  // tekst bare skjermlesere og Google ser, foran overskriften
+  skjult?: string;
   className?: string;
   farger?: [string, string, string];
+  // h1 brukes bare øverst på forsiden
+  som?: "h1" | "h2";
+  // play: styr animasjonen selv (brukes øverst, der den skal starte når siden er lastet)
+  play?: boolean;
+  delay?: number;
 }) {
   const [a, lite, b] = deler;
+  const Tag = som;
+  const vis = { opacity: 1, x: 0 };
   return (
-    <h2 className={`font-display font-bold uppercase leading-[0.84] tracking-[-0.01em] ${className}`}>
+    <Tag className={`font-display font-bold uppercase leading-[0.84] tracking-[-0.01em] ${className}`}>
+      {skjult && <span className="sr-only">{skjult}</span>}
       <span className={`block ${farger[0]}`}>
-        <RevealWords text={a} />
+        <RevealWords text={a} play={play} delay={delay} />
       </span>
       <span className="flex flex-wrap items-baseline">
         <motion.span
           className={`mr-[0.18em] font-serif text-[0.42em] font-normal normal-case italic tracking-normal ${farger[1]}`}
           initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          animate={play ? vis : undefined}
+          whileInView={play === undefined ? vis : undefined}
           viewport={{ once: true }}
-          transition={{ duration: 0.9, delay: 0.1, ease }}
+          transition={{ duration: 0.9, delay: delay + 0.1, ease }}
         >
           {lite}
         </motion.span>
-        <RevealWords text={b} className={farger[2]} delay={0.15} />
+        <RevealWords text={b} className={farger[2]} play={play} delay={delay + 0.15} />
       </span>
-    </h2>
+    </Tag>
   );
 }

@@ -21,6 +21,7 @@ export default function Nav() {
     { href: sider.problem[lang], label: m.lesMer },
   ];
   const [hidden, setHidden] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY, scrollYProgress } = useScroll();
 
@@ -28,6 +29,7 @@ export default function Nav() {
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
     setHidden(y > prev && y > 200);
+    setScrolled(y > 80);
   });
 
   // Lås scrollingen mens mobilmenyen er åpen
@@ -46,7 +48,10 @@ export default function Nav() {
         style={{ scaleX: scrollYProgress, width: "100%" }}
       />
       <motion.header
-        className={`fixed inset-x-0 top-0 z-40 flex items-center justify-between px-5 py-5 md:px-10 ${open ? "" : "mix-blend-difference"}`}
+        // Mørk, litt gjennomsiktig bakgrunn når du har scrollet, så menyen er lett å lese på både lyse, røde og mørke deler
+        className={`fixed inset-x-0 top-0 z-40 flex items-center justify-between px-5 transition-[background-color,padding] duration-500 md:px-10 ${
+          scrolled && !open ? "bg-ink/85 py-3 backdrop-blur-md" : "py-5"
+        }`}
         initial={{ y: -100 }}
         animate={{ y: !loaded || (hidden && !open) ? -100 : 0 }}
         transition={{ duration: 0.7, ease }}
