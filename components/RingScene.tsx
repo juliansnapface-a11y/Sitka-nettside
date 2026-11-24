@@ -287,7 +287,7 @@ export default function RingScene() {
   }, []);
 
   return (
-    <div ref={wrap} className="pointer-events-none absolute inset-0 opacity-75">
+    <div ref={wrap} className="pointer-events-none absolute inset-0 opacity-90">
       {webgl ? (
         <Boundary>
           <Canvas
