@@ -44,7 +44,7 @@ Gå så til http://localhost:3000 i nettleseren.
 | `components/innhold.ts` | Tekst og kontaktinfo på forsiden, både norsk (`no`) og engelsk (`en`) |
 | `components/bilder.ts` + `Photo.tsx` | Bildene, bildetekstene og animasjonen når de dukker opp |
 | `components/Preloader.tsx` | Åpningsanimasjonen (årringene som tegnes) |
-| `components/Hero.tsx` + `RingScene.tsx` | Toppen av siden med 3D-årringen |
+| `components/Hero.tsx` + `RingScene.tsx` | Toppen av siden: 3D-stammeskive som er i ferd med å bli biokull (teksturene ligger i `public/media/treskive/` og lages med `scripts/treskive.py`) |
 | `components/Problem.tsx` | Ammoniakk og sitkagran |
 | `components/Solution.tsx` | Løsningen, med biokullkornet og kortene |
 | `components/Process.tsx` | De fire stegene som scroller sidelengs |
