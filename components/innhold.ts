@@ -39,13 +39,14 @@ const no = {
   },
   problem: {
     ord: "Problemet",
-    ammoniakkA: "Stikkende luft",
-    ammoniakkB: "i stallen.",
+    // Overskrift som på plakatene: [svart, lite ord i kursiv, rødt]
+    ammoniakkTittel: ["Stikkende luft", "i", "stallen."],
+    ammoniakkMerke: "Ammoniakk",
     ammoniakkTekst:
       "Når urin og møkk brytes ned, dannes ammoniakk. Gassen lukter stikkende, gjør lufta tung og kan irritere luftveiene og øynene til både dyr og mennesker.",
     ammoniakkUthev: ["ammoniakk", "luftveiene"],
-    granA: "En gran",
-    granB: "på avveie.",
+    granTittel: ["En gran", "på", "avveie."],
+    granMerke: "Fremmed art",
     granTekst:
       "Sitkagran stenger ute lyset, så plantene som hører hjemme her forsvinner. Etter dem forsvinner insekter og fugler. Treet truer blant annet den sterkt truede kystlyngheia, og det sprer seg av seg selv.",
     granUthev: ["lyset", "kystlynghei"],
@@ -54,8 +55,10 @@ const no = {
   },
   losning: {
     kicker: "Løsningen",
-    tittelA: "Strø med",
-    tittelB: "biokull.",
+    tittel: ["Strø", "med", "biokull."],
+    flis: "Treflis",
+    biokull: "Biokull",
+    resultat: "Sitka-strø",
     tekst:
       "Vi blander biokull fra sitkagran med flis. Biokullet skal fungere som en svamp i strøet og fange opp det som ellers ville lukte og fordampe.",
     lesMer: "Les mer om løsningen",
@@ -163,13 +166,13 @@ const en: Innhold = {
   },
   problem: {
     ord: "Problem",
-    ammoniakkA: "Stinging air",
-    ammoniakkB: "in the stable.",
+    ammoniakkTittel: ["Stinging air", "in", "the stable."],
+    ammoniakkMerke: "Ammonia",
     ammoniakkTekst:
       "When urine and manure break down, ammonia is formed. The gas has a sharp smell, makes the air heavy and can irritate the airways and eyes of both animals and people.",
     ammoniakkUthev: ["ammonia", "airways"],
-    granA: "A tree",
-    granB: "out of place.",
+    granTittel: ["A tree", "out of", "place."],
+    granMerke: "Invasive species",
     granTekst:
       "Sitka spruce blocks out the light, so the plants that belong here disappear. Insects and birds follow. Among other things, the tree threatens Norway's endangered coastal heathland, and it spreads on its own.",
     granUthev: ["light", "heathland"],
@@ -178,8 +181,10 @@ const en: Innhold = {
   },
   losning: {
     kicker: "The solution",
-    tittelA: "Bedding with",
-    tittelB: "biochar.",
+    tittel: ["Bedding", "with", "biochar."],
+    flis: "Wood shavings",
+    biokull: "Biochar",
+    resultat: "Sitka bedding",
     tekst:
       "We mix biochar made from Sitka spruce with wood shavings. The biochar is meant to work like a sponge in the bedding, capturing what would otherwise smell and evaporate.",
     lesMer: "More about the solution",

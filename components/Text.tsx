@@ -148,3 +148,36 @@ export function Kicker({ children, className = "" }: { children: ReactNode; clas
     </motion.div>
   );
 }
+
+// Stor overskrift i plakat-stil: første del på én linje, så et lite ord i kursiv og siste del i en annen farge.
+// deler = [«Stikkende luft», «i», «stallen.»]
+export function PlakatTittel({
+  deler,
+  className = "",
+  farger = ["", "", "text-red"],
+}: {
+  deler: string[];
+  className?: string;
+  farger?: [string, string, string];
+}) {
+  const [a, lite, b] = deler;
+  return (
+    <h2 className={`font-display font-bold uppercase leading-[0.84] tracking-[-0.01em] ${className}`}>
+      <span className={`block ${farger[0]}`}>
+        <RevealWords text={a} />
+      </span>
+      <span className="flex flex-wrap items-baseline">
+        <motion.span
+          className={`mr-[0.18em] font-serif text-[0.42em] font-normal normal-case italic tracking-normal ${farger[1]}`}
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9, delay: 0.1, ease }}
+        >
+          {lite}
+        </motion.span>
+        <RevealWords text={b} className={farger[2]} delay={0.15} />
+      </span>
+    </h2>
+  );
+}

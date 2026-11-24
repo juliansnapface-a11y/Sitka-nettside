@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Oswald } from "next/font/google";
+import { Inter, Instrument_Serif, Oswald } from "next/font/google";
 import "./globals.css";
 import StrukturertData from "@/components/StrukturertData";
 import { nettstedUrl, nettstedNavn, forsideTittel, forsideBeskrivelse, sokeord, googleVerifisering } from "@/lib/nettsted";
@@ -13,6 +13,14 @@ const oswald = Oswald({
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+});
+
+// Kursiv skrift til små ord i store overskrifter (som «i» i «Stikkende luft i stallen»)
+const serif = Instrument_Serif({
+  variable: "--font-instrument",
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
 });
 
 export const metadata: Metadata = {
@@ -49,7 +57,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="nb" className={`${oswald.variable} ${inter.variable} antialiased`}>
+    <html lang="nb" className={`${oswald.variable} ${inter.variable} ${serif.variable} antialiased`}>
       <body>
         <StrukturertData />
         {children}

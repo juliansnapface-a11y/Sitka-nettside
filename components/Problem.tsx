@@ -1,79 +1,38 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { innhold } from "./innhold";
 import { useSprak } from "./Sprak";
 import { sider } from "@/lib/sprak";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { motion } from "motion/react";
-import { RevealWords, ScrubText, SplitLetters } from "./Text";
-import Photo from "./Photo";
+import { motion, useScroll, useTransform } from "motion/react";
+import { PlakatTittel, ScrubText } from "./Text";
+import Photo, { Kreditt } from "./Photo";
+import { bilder, bildeTekst } from "./bilder";
+import { Etikett, Merke, PilKnapp } from "./Plakat";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-// Ammoniakk-molekylet (NH3) som SVG
-function Molecule() {
-  return (
-    <svg viewBox="0 0 400 400" className="h-full w-full overflow-visible">
-      <g stroke="#F4EEEE" strokeWidth="14" strokeLinecap="round" opacity="0.6">
-        <line x1="200" y1="200" x2="200" y2="40" className="bond" />
-        <line x1="200" y1="200" x2="62" y2="300" className="bond" />
-        <line x1="200" y1="200" x2="338" y2="300" className="bond" />
-      </g>
-      <circle cx="200" cy="200" r="78" fill="#E0201A" className="atom" />
-      <text x="200" y="222" textAnchor="middle" fontSize="64" fontWeight="700" fill="#F4EEEE" style={{ fontFamily: "var(--font-oswald)" }}>
-        N
-      </text>
-      {[
-        [200, 40],
-        [62, 300],
-        [338, 300],
-      ].map(([x, y], i) => (
-        <g key={i} className="atom">
-          <circle cx={x} cy={y} r="42" fill="#F4EEEE" />
-          <text x={x} y={y + 15} textAnchor="middle" fontSize="40" fontWeight="700" fill="#0C0505" style={{ fontFamily: "var(--font-oswald)" }}>
-            H
-          </text>
-        </g>
-      ))}
-    </svg>
-  );
-}
-
-// Det store ordet «Problemet» med nummeret ved siden av
-function ProblemWord({ nr, ord }: { nr: string; ord: string }) {
-  return (
-    <div className="flex items-start gap-3 md:gap-5">
-      <h2 className="min-w-0 font-display text-[15vw] font-bold uppercase leading-[0.82] text-red md:text-[9.5vw]">
-        <SplitLetters text={ord} stagger={0.04} />
-      </h2>
-      <span className="mt-[0.4em] font-display text-sm tracking-[0.3em] text-off/50 md:text-xl">{nr}</span>
-    </div>
-  );
-}
-
+// Problemet, i plakat-stil: først lys side om ammoniakk, så et stort skogbilde om sitkagrana
 export default function Problem() {
   const ref = useRef<HTMLElement>(null);
+  const skog = useRef<HTMLDivElement>(null);
   const lang = useSprak();
   const t = innhold[lang].problem;
+  const gran = bilder.sitkagran;
+
+  // Skogbildet glir litt saktere enn siden (parallakse)
+  const { scrollYProgress } = useScroll({ target: skog, offset: ["start end", "end start"] });
+  const bildeY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
   useGSAP(
     () => {
-      // Molekylet snurrer og vokser mens du scroller
-      gsap.fromTo(
-        ".mol",
-        { rotate: -60, scale: 0.6 },
-        {
-          rotate: 120,
-          scale: 1.1,
-          ease: "none",
-          scrollTrigger: { trigger: ".ammo", start: "top bottom", end: "bottom top", scrub: 1 },
-        },
-      );
+      // Den store «NH3» i bakgrunnen glir sidelengs mens du scroller
       gsap.to(".nh3-big", {
-        xPercent: -30,
+        xPercent: -25,
         ease: "none",
         scrollTrigger: { trigger: ".ammo", start: "top bottom", end: "bottom top", scrub: 1 },
       });
@@ -82,69 +41,88 @@ export default function Problem() {
   );
 
   return (
-    <section id="problemet" ref={ref} className="relative bg-ink">
-      {/* Del 1: ammoniakk */}
-      <div className="ammo relative overflow-hidden px-5 py-28 md:px-10 md:py-40">
-        <div className="nh3-big pointer-events-none absolute -right-[10vw] top-[80%] -translate-y-1/2 select-none font-display text-[42vw] font-bold leading-none outline-red opacity-30 md:top-1/2">
+    <section id="problemet" ref={ref} className="relative">
+      {/* Del 1: ammoniakk, på lys bakgrunn */}
+      <div className="ammo relative overflow-hidden bg-off px-5 py-24 text-ink md:px-10 md:py-36">
+        <div
+          aria-hidden
+          className="nh3-big pointer-events-none absolute -right-[12vw] top-[4%] select-none font-display text-[46vw] font-bold leading-none opacity-25 outline-red md:top-[2%] md:text-[30vw]"
+        >
           NH<span className="relative top-[0.12em] text-[0.55em]">3</span>
         </div>
-        <div className="relative grid gap-16 md:grid-cols-12">
-          <div className="md:col-span-7">
-            <ProblemWord nr="01" ord={t.ord} />
-            <h3 className="mt-8 font-display text-3xl font-bold uppercase leading-[0.95] md:text-5xl">
-              <RevealWords text={t.ammoniakkA} />
-              <br />
-              <RevealWords text={t.ammoniakkB} className="text-red" delay={0.15} />
-            </h3>
+
+        <div className="relative">
+          <Etikett className="text-red">{t.ord} · 01</Etikett>
+          <PlakatTittel
+            deler={t.ammoniakkTittel}
+            className="mt-6 text-[13vw] md:text-[9.5vw]"
+            farger={["text-ink", "text-ink/70", "text-red"]}
+          />
+        </div>
+
+        <div className="relative mt-14 grid gap-12 md:mt-20 md:grid-cols-12 md:items-center md:gap-16">
+          <div className="relative md:col-span-7">
+            <Photo
+              navn="honer"
+              natur
+              frame="aspect-[16/11]"
+              position="center 70%"
+              tekstFarge="text-ink/50"
+              sizes="(min-width: 768px) 55vw, 100vw"
+            />
+            <Merke className="-right-2 -top-12 bg-red text-off md:-right-10 md:-top-16" vinkel={10}>
+              <span className="block text-4xl md:text-6xl">
+                NH<span className="text-[0.55em]">3</span>
+              </span>
+              <span className="mt-1 block text-[11px] tracking-[0.2em] md:text-sm">{t.ammoniakkMerke}</span>
+            </Merke>
+          </div>
+          <div className="md:col-span-5">
             <ScrubText
-              className="mt-10 max-w-2xl text-2xl font-light leading-snug md:text-4xl"
+              className="text-2xl leading-snug md:text-[2.1vw] md:leading-[1.3]"
               text={t.ammoniakkTekst}
               highlight={t.ammoniakkUthev}
             />
           </div>
-          <div className="flex items-center justify-center md:col-span-5">
-            <div className="mol aspect-square w-64 md:w-full md:max-w-md">
-              <Molecule />
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Del 2: sitkagran */}
-      <div className="forest relative overflow-hidden border-t border-off/10 px-5 py-28 md:px-10 md:py-40">
-        <div className="relative grid gap-16 md:grid-cols-12 md:items-center">
-          <div className="order-2 md:order-1 md:col-span-5">
-            <Photo navn="sitkagran" frame="aspect-[4/5]" sizes="(min-width: 768px) 40vw, 100vw" />
+      {/* Del 2: sitkagran, stort bilde i ekte farger */}
+      <div ref={skog} className="forest relative overflow-hidden bg-ink text-off">
+        <motion.div style={{ y: bildeY }} className="absolute inset-x-0 -inset-y-[10%] will-change-transform">
+          <Image src={gran.src} alt={bildeTekst(gran, lang).alt} fill sizes="100vw" className="object-cover" />
+        </motion.div>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/20 to-ink/90" />
+
+        <div className="relative flex min-h-[105svh] flex-col justify-between gap-24 px-5 py-24 md:px-10 md:py-32">
+          <div>
+            <Etikett className="text-off">{t.ord} · 02</Etikett>
+            <PlakatTittel
+              deler={t.granTittel}
+              className="mt-6 text-[17vw] md:text-[12vw]"
+              farger={["text-off", "text-off/85", "text-red"]}
+            />
           </div>
-          <div className="order-1 md:order-2 md:col-span-7">
-            <ProblemWord nr="02" ord={t.ord} />
-            <h3 className="mt-8 font-display text-3xl font-bold uppercase leading-[0.95] md:text-5xl">
-              <RevealWords text={t.granA} />
-              <br />
-              <RevealWords text={t.granB} className="text-red" delay={0.15} />
-            </h3>
+
+          <div className="max-w-3xl">
             <ScrubText
-              className="mt-10 max-w-2xl text-2xl font-light leading-snug md:text-4xl"
+              className="text-2xl font-light leading-snug md:text-4xl"
               text={t.granTekst}
               highlight={t.granUthev}
             />
-            <motion.p
-              className="mt-8 max-w-md text-sm text-off/50"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              {t.granNotat}
-            </motion.p>
-            <a
-            href={sider.problem[lang]}
-            className="group mt-10 inline-flex items-center gap-3 rounded-full border border-off/30 px-6 py-3 font-display text-sm uppercase tracking-[0.2em] text-off transition-colors hover:border-red hover:text-red"
-          >
-            {t.lesMer}
-            <span className="transition-transform group-hover:translate-x-1">→</span>
-          </a>
+            <p className="mt-6 max-w-md text-sm text-off/70">{t.granNotat}</p>
+            <PilKnapp href={sider.problem[lang]} className="mt-10 bg-red text-off">
+              {t.lesMer}
+            </PilKnapp>
           </div>
         </div>
+
+        <Merke className="right-4 top-[5%] bg-red text-off md:right-16 md:top-[38%]" vinkel={-12}>
+          {t.granMerke}
+        </Merke>
+        <p className="absolute bottom-4 right-5 text-[11px] text-off/55 md:right-10">
+          <Kreditt b={gran} />
+        </p>
       </div>
     </section>
   );
