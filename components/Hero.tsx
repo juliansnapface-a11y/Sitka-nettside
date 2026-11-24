@@ -14,8 +14,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Hero() {
   const loaded = useLoaded();
-  const lang = useSprak();
-  const t = innhold[lang].hero;
+  const t = innhold[useSprak()].hero;
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const titleY = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
@@ -70,28 +69,7 @@ export default function Hero() {
         </div>
 
         <motion.div style={{ y: titleY }}>
-          <div className="mb-2 flex items-end justify-between gap-4 font-display text-[10px] uppercase tracking-[0.3em] text-off/50 md:text-xs">
-            {/* bildet av stammeskiva er et ekte foto, og lisensen krever at fotografen nevnes */}
-            <span className="pointer-events-auto font-sans text-[10px] normal-case tracking-normal text-off/35">
-              {innhold[lang].foto}:{" "}
-              <a
-                href="https://commons.wikimedia.org/wiki/File:Abies_alba_cross_section_Beskid_%C5%BBywiecki.JPG"
-                target="_blank"
-                rel="noreferrer"
-                className="underline decoration-current/30 underline-offset-2 hover:text-red"
-              >
-                Crusier
-              </a>
-              ,{" "}
-              <a
-                href="https://creativecommons.org/licenses/by-sa/3.0/"
-                target="_blank"
-                rel="noreferrer"
-                className="underline decoration-current/30 underline-offset-2 hover:text-red"
-              >
-                CC BY-SA 3.0
-              </a>
-            </span>
+          <div className="mb-2 flex items-end justify-end font-display text-[10px] uppercase tracking-[0.3em] text-off/50 md:text-xs">
             <motion.span
               className="flex items-center gap-2"
               initial={{ opacity: 0 }}
