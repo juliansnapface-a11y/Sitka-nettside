@@ -1,21 +1,30 @@
 "use client";
 /* eslint-disable react-hooks/immutability -- three.js-objekter endres med vilje i hver frame */
 
-import { Component, Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import {
+  Component,
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { LOADED_EVENT } from "./rings";
 
-// En ekte stammeskive av gran som er i ferd med å bli til biokull:
-// lyst treverk med årringer, forkullet kant med glør, og gnister som stiger opp.
-// Teksturene er laget på forhånd og ligger i public/media/treskive/.
+// En stammeskive laget fra et ekte foto av en tømmerstokk (se scripts/fotoskive.py),
+// som vipper rolig mens fint støv svever i lyset. Teksturene ligger i public/media/treskive/.
 
 const T = "/media/treskive/";
 const RED = "#E0201A";
 
 function useLoaded() {
   const [loaded, setLoaded] = useState(
-    () => typeof window !== "undefined" && !!(window as unknown as { __sitkaLoaded?: boolean }).__sitkaLoaded,
+    () =>
+      typeof window !== "undefined" &&
+      !!(window as unknown as { __sitkaLoaded?: boolean }).__sitkaLoaded,
   );
   useEffect(() => {
     const on = () => setLoaded(true);
@@ -27,14 +36,12 @@ function useLoaded() {
 
 function Disc() {
   const group = useRef<THREE.Group>(null);
-  const glowLight = useRef<THREE.PointLight>(null);
   const loaded = useLoaded();
   const intro = useRef(0);
   const { viewport, gl } = useThree();
 
-  const [face, glow, faceBump, bark, barkBump] = useLoader(THREE.TextureLoader, [
+  const [face, faceBump, bark, barkBump] = useLoader(THREE.TextureLoader, [
     T + "treskive.webp",
-    T + "treskive-glod.webp",
     T + "treskive-relieff.webp",
     T + "bark.webp",
     T + "bark-relieff.webp",
@@ -42,9 +49,9 @@ function Disc() {
 
   const mats = useMemo(() => {
     const aniso = gl.capabilities.getMaxAnisotropy();
-    for (const t of [face, glow]) t.colorSpace = THREE.SRGBColorSpace;
+    face.colorSpace = THREE.SRGBColorSpace;
     bark.colorSpace = THREE.SRGBColorSpace;
-    for (const t of [face, glow, faceBump]) t.anisotropy = aniso;
+    for (const t of [face, faceBump]) t.anisotropy = aniso;
     for (const t of [bark, barkBump]) {
       t.wrapS = THREE.RepeatWrapping;
       t.anisotropy = aniso;
@@ -52,11 +59,8 @@ function Disc() {
     const faceMat = new THREE.MeshStandardMaterial({
       map: face,
       bumpMap: faceBump,
-      bumpScale: 2.2,
-      emissiveMap: glow,
-      emissive: new THREE.Color("#ffffff"),
-      emissiveIntensity: 1.4,
-      roughness: 0.82,
+      bumpScale: 1.5,
+      roughness: 0.9,
       metalness: 0,
     });
     const sideMat = new THREE.MeshStandardMaterial({
@@ -67,7 +71,7 @@ function Disc() {
       metalness: 0,
     });
     return [sideMat, faceMat, faceMat];
-  }, [face, glow, faceBump, bark, barkBump, gl]);
+  }, [face, faceBump, bark, barkBump, gl]);
 
   // Smale skjermer (mobil): mindre skive, midtstilt og lenger ned, så den ikke dekker teksten
   const small = viewport.width < 6;
@@ -77,37 +81,40 @@ function Disc() {
   useFrame((state, dt) => {
     if (!group.current) return;
     const t = state.clock.elapsedTime;
-    intro.current = THREE.MathUtils.damp(intro.current, loaded ? 1 : 0, 1.4, dt);
+    intro.current = THREE.MathUtils.damp(
+      intro.current,
+      loaded ? 1 : 0,
+      1.4,
+      dt,
+    );
     const k = intro.current;
 
     group.current.scale.setScalar((small ? smallScale : 1.1) * (0.6 + 0.4 * k));
-    group.current.position.set(small ? 0 : 1.55, (small ? -0.2 * viewport.height : 0) + Math.sin(t * 0.5) * 0.05, 0);
-    group.current.rotation.x = 0.32 + Math.sin(t * 0.3) * 0.04;
+    group.current.position.set(
+      small ? 0 : 1.55,
+      (small ? -0.2 * viewport.height : 0) + Math.sin(t * 0.5) * 0.05,
+      0,
+    );
+    group.current.rotation.x = 0.28 + Math.sin(t * 0.3) * 0.04;
     // vipper rolig fram og tilbake, så forsiden med årringene alltid synes
-    group.current.rotation.y = -0.45 + Math.sin(t * 0.22) * 0.5 + (1 - k) * 1.5;
-    group.current.rotation.z = Math.sin(t * 0.22) * 0.05;
-
-    // glørne blafrer svakt, som ekte glør
-    const flick = 0.75 + 0.18 * Math.sin(t * 2.1) + 0.1 * Math.sin(t * 5.3 + 1) + 0.06 * Math.sin(t * 11.7);
-    (mats[1] as THREE.MeshStandardMaterial).emissiveIntensity = (1.1 + 0.6 * flick) * k;
-    if (glowLight.current) glowLight.current.intensity = (2.5 + 2 * flick) * k;
+    group.current.rotation.y = -0.4 + Math.sin(t * 0.22) * 0.35 + (1 - k) * 1.5;
+    group.current.rotation.z = Math.sin(t * 0.22) * 0.04;
   });
 
   return (
-    <group ref={group}>
-      <mesh rotation={[Math.PI / 2, 0, 0]} material={mats}>
-        <cylinderGeometry args={[1.5, 1.5, 0.38, 160, 1]} />
-      </mesh>
-      {/* varmt lys fra den forkullede siden */}
-      <pointLight ref={glowLight} position={[-1.6, -0.9, 0.9]} color="#ff7a2e" distance={3.5} decay={1.8} />
-      <Embers />
-    </group>
+    <>
+      <Stov />
+      <group ref={group}>
+        <mesh rotation={[Math.PI / 2, 0, 0]} material={mats}>
+          <cylinderGeometry args={[1.5, 1.5, 0.38, 160, 1]} />
+        </mesh>
+      </group>
+    </>
   );
 }
 
-// Glør og gnister som stiger sakte opp fra den forkullede kanten og slukner
-function Embers({ count = 90 }) {
-  const ref = useRef<THREE.Points>(null);
+// Fint støv som svever sakte gjennom lyset, slik man ser i en solstripe i en låve
+function Stov({ count = 140 }) {
   const { data, geo, mat } = useMemo(() => {
     let seed = 3;
     const rnd = () => {
@@ -115,28 +122,33 @@ function Embers({ count = 90 }) {
       return (seed - 1) / 2147483646;
     };
     const data = Array.from({ length: count }, () => ({
-      x: -1.8 + rnd() * 2.4,
-      z: (rnd() - 0.5) * 1.2,
-      life: 3 + rnd() * 4,
-      off: rnd() * 10,
-      drift: (rnd() - 0.5) * 0.5,
-      size: 0.5 + rnd() * 1.2,
+      x: -1 + rnd() * 5,
+      y: -2.2 + rnd() * 4.4,
+      z: -1 + rnd() * 2.5,
+      speed: 0.02 + rnd() * 0.05,
+      off: rnd() * 100,
+      b: 0.15 + rnd() * 0.45,
     }));
     const geo = new THREE.BufferGeometry();
-    geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(count * 3), 3));
-    geo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(count * 3), 3));
-    // rund, myk prikk
+    geo.setAttribute(
+      "position",
+      new THREE.BufferAttribute(new Float32Array(count * 3), 3),
+    );
+    geo.setAttribute(
+      "color",
+      new THREE.BufferAttribute(new Float32Array(count * 3), 3),
+    );
     const c = document.createElement("canvas");
     c.width = c.height = 64;
     const g = c.getContext("2d")!;
     const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
     grad.addColorStop(0, "rgba(255,255,255,1)");
-    grad.addColorStop(0.25, "rgba(255,255,255,0.7)");
+    grad.addColorStop(0.3, "rgba(255,255,255,0.5)");
     grad.addColorStop(1, "rgba(255,255,255,0)");
     g.fillStyle = grad;
     g.fillRect(0, 0, 64, 64);
     const mat = new THREE.PointsMaterial({
-      size: 0.085,
+      size: 0.035,
       map: new THREE.CanvasTexture(c),
       vertexColors: true,
       transparent: true,
@@ -152,18 +164,21 @@ function Embers({ count = 90 }) {
     const pos = geo.attributes.position as THREE.BufferAttribute;
     const col = geo.attributes.color as THREE.BufferAttribute;
     data.forEach((d, i) => {
-      const p = ((t + d.off) % d.life) / d.life; // 0 → 1 gjennom livet
-      const y = -1.1 + p * 3.2;
-      pos.setXYZ(i, d.x + Math.sin(t * 0.9 + i) * 0.12 + d.drift * p, y, d.z + Math.cos(t * 0.7 + i) * 0.1);
-      const fade = Math.sin(Math.PI * Math.min(1, p * 1.2)) * (0.6 + 0.4 * Math.sin(t * 9 + i * 3));
-      const b = Math.max(0, fade) * d.size;
-      col.setXYZ(i, 1.0 * b, (0.38 + 0.25 * (1 - p)) * b, 0.08 * b);
+      const y = ((d.y + 2.2 + (t + d.off) * d.speed) % 4.4) - 2.2;
+      pos.setXYZ(
+        i,
+        d.x + Math.sin(t * 0.15 + i) * 0.25,
+        y,
+        d.z + Math.cos(t * 0.12 + i) * 0.2,
+      );
+      const b = d.b * (0.7 + 0.3 * Math.sin(t * 0.8 + i * 2));
+      col.setXYZ(i, 1.0 * b, 0.86 * b, 0.7 * b);
     });
     pos.needsUpdate = true;
     col.needsUpdate = true;
   });
 
-  return <points ref={ref} geometry={geo} material={mat} />;
+  return <points geometry={geo} material={mat} />;
 }
 
 function hasWebGL() {
@@ -205,7 +220,9 @@ export default function RingScene() {
   // Stopper 3D-tegningen når helten er ute av syne (sparer batteri)
   useEffect(() => {
     if (!wrap.current) return;
-    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { rootMargin: "100px" });
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), {
+      rootMargin: "100px",
+    });
     io.observe(wrap.current);
     return () => io.disconnect();
   }, []);
@@ -218,15 +235,27 @@ export default function RingScene() {
             frameloop={visible ? "always" : "never"}
             dpr={[1, 2]}
             camera={{ position: [0, 0, 7], fov: 35 }}
-            gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+            gl={{
+              antialias: true,
+              alpha: true,
+              powerPreference: "high-performance",
+            }}
             onCreated={({ gl }) => {
               gl.toneMapping = THREE.ACESFilmicToneMapping;
             }}
           >
-            <ambientLight intensity={0.25} color="#ffe8d8" />
+            <ambientLight intensity={0.4} color="#fff1e6" />
             {/* mykt dagslys ovenfra, og et svakt rødt kantlys bakfra (Sitka-rødt) */}
-            <directionalLight position={[-3, 5, 6]} intensity={2.7} color="#fff1e4" />
-            <directionalLight position={[4, -1, -4]} intensity={0.9} color={RED} />
+            <directionalLight
+              position={[-4, 5, 5]}
+              intensity={2.4}
+              color="#fff1e4"
+            />
+            <directionalLight
+              position={[4, -1, -4]}
+              intensity={0.9}
+              color={RED}
+            />
             <Suspense fallback={null}>
               <Disc />
             </Suspense>
